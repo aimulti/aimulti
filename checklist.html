@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>마케팅 30일 체크리스트</title>
+<style>
+  /* 모든 요소에 box-sizing 적용 */
+  * {
+    box-sizing: border-box;
+  }
+
+  /* 기본 스타일 */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f4f7fa;
+  padding-top: 112px; /* 타이틀(56px) + 프로그레스바(56px) */
+}
+
+#header-title-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  z-index: 9999;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  text-align: center;
+  padding: 14px 0 8px 0;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#header-title-fixed h1 {
+  font-size: 1.7em;
+  color: #2c3e50;
+  margin: 0 0 0 24px;
+  font-weight: bold;
+  letter-spacing: 0.02em;
+  display: block;
+  opacity: 1;
+}
+.download-btn {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  color: #10b981;
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.7em;
+  cursor: pointer;
+  padding: 0 4px;
+  border-radius: 0 !important;
+  transition: color 0.2s;
+}
+.download-btn:hover {
+  color: #059669;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+#share-buttons {
+  Display: flex;
+  Gap: 7px;
+  Margin-right: 18px;
+}
+
+.share-btn {
+background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  color: #10b981;
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.7em;
+  cursor: pointer;
+  padding: 0 4px;
+  border-radius: 0 !important;
+}
+.share-btn:hover {
+  background: none !important;
+  color: #059669;
+  border: none !important;
+  box-shadow: none !important;
+}
+#progress-container {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  color: #2d6a4f;
+  font-weight: bold;
+  font-size: 1.1em;
+  padding: 10px 16px 10px 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e7eb;
+  height: 56px;
+}
+#progress-text {
+  flex: 0 0 auto;
+}
+#progress-bar-bg {
+  flex: 1 1 auto;
+  background-color: #d1fae5;
+  border-radius: 12px;
+  height: 18px;
+  margin-left: 15px;
+  overflow: hidden;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+}
+#progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #34d399, #059669);
+  width: 0%;
+  transition: width 0.3s ease;
+  border-radius: 12px 0 0 12px;
+}
+
+
+
+  /* 오른쪽 하단 고정 원형 전체 진행률 */
+  #circular-progress {
+    position: relative;
+    bottom: 20px;
+    right: 20px;
+    width: 100px; /* 크기 증가 */
+    height: 100px; /* 크기 증가 */
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(16,185,129,0.4);
+    pointer-events: none;
+    transition: none;
+  }
+
+#circular-progress-wrapper {
+  position: fixed;
+  right: 0px;
+  bottom: 0px;
+  z-index: 2000;
+  width: 100px;
+  height: 100px;
+  display: block;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 동그란 원 */
+#circular-progress {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  z-index: 1;
+}
+
+/* 맨 위로 버튼을 원 위에 띄우기 */
+#scroll-to-top-btn {
+  position: absolute;
+  right: -10px;
+  /* 중앙이 아니라, 원의 위쪽에 붙이기: */
+  top: -80px; /* 버튼 크기/원 크기에 따라 조정(56px 버튼일 때 -28px이 위에 딱 붙음) */
+  transform: translate(-50%, 0);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #34d399 60%, #059669 100%);
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(16,185,129,0.35);
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.2s, box-shadow 0.2s, opacity 0.3s;
+  font-size: 1.5em;
+  opacity: 0.93;
+  pointer-events: auto;
+  overflow: hidden;
+}
+
+#scroll-to-top-btn .material-icons {
+  font-size: 2em;
+  display: block;
+  margin: 0;
+  line-height: 1;
+  width: 1em;
+  height: 1em;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#scroll-to-top-btn.hide {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+#scroll-to-top-btn:hover {
+  background: linear-gradient(135deg, #059669 60%, #34d399 100%);
+  box-shadow: 0 8px 18px rgba(16,185,129,0.48);
+  opacity: 1;
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+  #circular-progress-wrapper {
+    right: 0px;
+    bottom: 110px;
+    width: 70px;
+    height: 70px;
+  }
+  #circular-progress {
+    width: 70px;
+    height: 70px;
+  }
+  #circular-progress svg {
+    width: 70px;
+    height: 70px;
+  }
+  #scroll-to-top-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 1.1em;
+    top: -70px; /* 모바일에서 버튼이 원 위에 잘 붙도록 조정 */
+    Right: 0px;
+  }
+}
+
+  .circular-svg {
+    width: 100%; /* 부모 div에 맞춰 조절 */
+    height: 100; /* 부모 div에 맞춰 조절 */
+    Display: block;
+  }
+  .circular-bg {
+    stroke: #ffffff;
+    stroke-width: 10; /* 선 굵기 증가 */
+    fill: none;
+  }
+  .circular-fg {
+    stroke: url(#circular-gradient);
+    stroke-width: 10; /* 선 굵기 증가 */
+    /* stroke-linecap: round;  <-- 이 부분을 제거합니다. */
+    transition: stroke-dashoffset 0.5s cubic-bezier(.4,2,.6,1);
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%; /* 중앙 기준으로 회전 */
+    fill: none;
+  }
+  .circular-text {
+    font-size: 1.8em; /* 글씨 크기 증가 */
+    fill: #10b981;
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+    pointer-events: none;
+    user-select: none;
+    /* SVG 내부 텍스트 중앙 정렬 */
+    dominant-baseline: middle;
+    alignment-baseline: middle;
+    text-anchor: middle;
+  }
+  .circular-label {
+    font-size: 1.2em; /* 글씨 크기 증가 */
+    fill: #10b981;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    pointer-events: none;
+    user-select: none;
+    /* SVG 내부 텍스트 중앙 정렬 */
+    dominant-baseline: middle;
+    alignment-baseline: middle;
+    text-anchor: middle;
+  }
+  h1 { display: none; } /* 페이지 제목은 고정 헤더에만 표시 */
+
+  /* 체크리스트 컨테이너 - 가로 스크롤 및 드래그 */
+  #checklist-wrapper {
+    position: relative; /* 화살표 버튼 위치 지정을 위해 추가 */
+    padding-bottom: 20px; /* 스크롤바 공간 확보 */
+  }
+
+  #checklist {
+    display: flex; /* 플렉스 박스 */
+    overflow-x: auto; /* 가로 스크롤 가능 */
+    scroll-snap-type: x mandatory; /* 카드 스냅 효과 */
+    -webkit-overflow-scrolling: touch; /* iOS 부드러운 스크롤 */
+    scrollbar-width: thin; /* Firefox 스크롤바 */
+    scrollbar-color: #34d399 #e5e7eb; /* Firefox 스크롤바 색상 */
+    cursor: grab; /* 드래그 가능한 커서 */
+  }
+  #checklist.grabbing {
+    cursor: grabbing; /* 드래그 중 커서 */
+  }
+  #checklist::-webkit-scrollbar {
+    height: 8px;
+  }
+  #checklist::-webkit-scrollbar-track {
+    background: #e5e7eb;
+    border-radius: 10px;
+  }
+  #checklist::-webkit-scrollbar-thumb {
+    background: #34d399;
+    border-radius: 10px;
+  }
+  #checklist::-webkit-scrollbar-thumb:hover {
+    background: #059669;
+  }
+
+  /* 카테고리 카드 스타일 */
+  .category-box {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-right: 20px; /* 카드 간 간격 */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    border: 1px solid #e0e0e0;
+    min-width: 320px; /* PC 기본 카드 너비 */
+    flex: 0 0 auto; /* 플렉스 아이템이 축소되지 않도록 설정 */
+    scroll-snap-align: start; /* 카드 시작 지점에 스냅 */
+    max-width: 400px; /* PC에서 너무 넓어지지 않도록 최대 너비 설정 */
+  }
+
+  /* 마지막 카드 margin-right 제거 */
+  #checklist > .category-box:last-child {
+    margin-right: 0;
+  }
+
+  .category-box h2 {
+    color: #1a4d2e;
+    font-size: 1.6em;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #a7d9b5;
+    padding-bottom: 8px;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+  }
+  .category-box h2 .material-icons { /* Material Icons 스타일 */
+    margin-right: 8px;
+    color: #2d6a4f;
+    font-size: 1.2em;
+  }
+
+  .day-section {
+    background: #fdfdfd;
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+    position: relative;
+    border: 1px solid #edf2f7;
+  }
+  .day-section h3 {
+    color: #34495e;
+    font-size: 1.1em;
+    margin-top: 0;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+  }
+  .day-progress-text {
+    font-size: 0.9em;
+    color: #2d6a4f;
+    font-weight: 600;
+    min-width: 40px;
+    text-align: right;
+    margin-left: 10px;
+  }
+  .day-progress-bar-bg {
+    width: 100%;
+    height: 10px;
+    background-color: transparent;
+    border: 1.5px solid #d1fae5;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: none;
+    margin: 6px 0 10px 0;
+  }
+  .day-progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #6ee7b7, #10b981);
+    width: 0%;
+    transition: width 0.3s ease;
+    border-radius: 10px 0 0 10px;
+  }
+  ul {
+    padding-left: 20px;
+    margin: 0;
+  }
+  li {
+    margin-bottom: 8px;
+    font-size: 0.95em;
+    transition: all 0.2s ease-in-out;
+  }
+
+  /* 커스텀 체크박스 스타일 */
+  input[type="checkbox"] {
+    opacity: 0; /* 기본 체크박스 숨기기 */
+    position: absolute;
+    z-index: -1; /* 다른 요소에 가려지지 않도록 */
+  }
+  input[type="checkbox"] + span::before { /* 체크박스 대신 표시될 요소 */
+    content: '';
+    display: inline-block;
+    width: 1.2em;
+    height: 1.2em;
+    flex-shrink: 0; /* 크기 고정 */
+    flex-grow: 0;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    margin-right: 0.5em;
+    vertical-align: middle;
+    transition: background-color 0.2s, border-color 0.2s;
+    background-color: #f0f0f0;
+  }
+  input[type="checkbox"]:checked + span::before {
+    background-color: #34d399; /* 체크 시 배경색 */
+    border-color: #34d399; /* 체크 시 테두리색 */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 011.414 0l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414l3.293 3.293 7.293-7.293a1 1 0 010 1.414z'/%3E%3C/svg%3E"); /* 체크 아이콘 (흰색) */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 80%;
+  }
+  input[type="checkbox"]:focus + span::before {
+    box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.5); /* 포커스 시 아웃라인 */
+  }
+
+  label {
+    display: flex; /* 텍스트와 체크박스를 한 줄에 정렬 */
+    align-items: center;
+    cursor: pointer;
+    padding: 2px 0;
+  }
+  label:hover {
+    background-color: #f0f8ff;
+    border-radius: 6px;
+    padding: 2px 4px;
+  }
+  .checked {
+    text-decoration: line-through;
+    color: #aaa;
+  }
+
+  /* 화살표 버튼 */
+  .scroll-button {
+    Flex: none !important;
+    Align-self: center !important;
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%); /* 버튼 자체를 세로 중앙으로 정렬 */
+    background-color: transparent;
+    color: #10b981;
+    border: 2.5px solid #10b981;
+    border-radius: 50% !important;
+    width: 36px !important;
+    height: 36px !important;
+    Min-width: 36px !important;
+    Min-height: 36px !important;
+    Max-width: 36px !important;
+    Max-height: 36px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.5em;
+    font-weight: bold;
+    z-index: 10; /* 고정 헤더보다 낮은 z-index로 겹치지 않도록 */
+    transition: background-color 0.2s, opacity 0.2s;
+    opacity: 0.85;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);
+    Box-sizing: border-box !important;
+    Background-clip: border-box;
+    Padding: 0 !important;
+    Margin: 0 !important;
+  }
+  .scroll-button:hover {
+    background: linear-gradient(135deg, #34d399 60%, #059669 100%);
+    Border-color: #059669;
+    opacity: 1;
+  }
+  .scroll-button:hover.left {
+  -webkit-text-fill-color: #fff;
+  color: #fff;
+  background-clip: border-box;
+  -webkit-background-clip: border-box;
+  background-image: linear-gradient(135deg, #34d399 60%, #059669 100%);
+}
+  .scroll-button:hover.right {
+  -webkit-text-fill-color: #fff;
+  color: #fff;
+  background-clip: border-box;
+  -webkit-background-clip: border-box;
+  background-image: linear-gradient(135deg, #34d399 60%, #059669 100%);
+}
+  .scroll-button.left {
+    Background: transparent;
+    Background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    Background-image: linear-gradient(135deg, #34d399 60%, #059669 100%);
+    Color: #10b981;
+    left: 10px; /* 화면 좌측에서 10px 떨어짐 */
+  }
+  .scroll-button.right {
+    Background: transparent;
+    Background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    Background-image: linear-gradient(135deg, #34d399 60%, #059669 100%);
+    Color: #10b981;
+    right: 10px; /* 화면 우측에서 10px 떨어짐 */
+  }
+  .scroll-button.hidden {
+    display: none; /* 필요 없을 때 숨김 */
+  }
+
+
+  /* 하단 버튼 */
+  #buttons {
+    text-align: center;
+    margin: 20px 0 40px 0;
+  }
+  button {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 0.9em;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    user-select: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  #reset-btn { background-color: #e63946; }
+  #reset-btn:hover { background-color: #d62828; box-shadow: 0 4px 8px rgba(230,57,70,0.3); }
+  #print-pdf-btn { background-color: #1d3557; }
+  #print-pdf-btn:hover { background-color: #16315c; box-shadow: 0 4px 8px rgba(29,53,87,0.3); }
+  #show-result-btn { background-color: #38a169; }
+  #show-result-btn:hover { background-color: #276749; box-shadow: 0 4px 8px rgba(56,161,105,0.3); }
+  #print-result-btn { background-color: #ffb703; color: #22223b; }
+  #print-result-btn:hover { background-color: #e09f3e; color: #22223b; box-shadow: 0 4px 8px rgba(255,183,3,0.3); }
+
+  /* 진단 결과 영역 */
+  #diagnosis-result {
+    background: white;
+    border-radius: 10px;
+    padding: 15px 20px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+    max-width: 900px;
+    margin: 0 auto 40px auto;
+    position: relative;
+    border: 1px solid #e0e0e0;
+  }
+  #diagnosis-result h3 {
+    margin-top: 0;
+    color: #2d6a4f;
+    font-size: 1.3em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+  }
+  #diagnosis-result ul {
+    max-height: 300px;
+    overflow-y: auto;
+    padding-left: 20px;
+  }
+  #diagnosis-result ul li {
+    font-size: 0.9em;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+  #print-result-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    z-index: 10;
+  }
+
+  /* 미디어 쿼리: 모바일 최적화 */
+  @media (max-width: 768px) {
+    body {
+      padding: 10px;
+      padding-top: 150px; /* 모바일 헤더 높이 고려 */
+    }
+   #header-title-fixed {
+      display: flex !important;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: white;
+      z-index: 9999;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid #e5e7eb;
+    }
+    #header-title-fixed h1 {
+      display: block !important; 
+      color: #2c3e50 !important;
+      Margin-left: 10px;
+      Font-size: 1.2em; 
+      opacity: 1 !important;
+    }
+      #share-buttons {
+    gap: 3px;
+    margin-right: 6px;
+  }
+  .share-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 1em;
+  }
+    #progress-container {
+      font-size: 0.9em;
+      padding: 8px 15px 8px 15px;
+      margin-bottom: 15px; /* 모바일에서도 간격 유지 */
+    }
+    /* 모바일에서 카드 하나씩 보이도록 */
+    #checklist-wrapper {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .category-box {
+      margin-right: 15px;
+      min-width: calc(100% - 30px); /* 화면 너비에 맞춰 카드 하나씩 보이도록 (좌우 패딩 및 스크롤바 영역) */
+      max-width: none; /* 모바일에서는 최대 너비 제한 해제 */
+    }
+    .category-box h2 {
+      font-size: 1.4em;
+      margin-bottom: 12px;
+    }
+    .day-section {
+      padding: 12px 15px;
+      margin-bottom: 10px;
+    }
+    .day-section h3 {
+      font-size: 1em;
+      margin-bottom: 6px;
+    }
+    #diagnosis-result {
+      max-width: 100%;
+    }
+    #print-result-btn {
+      position: static; /* 모바일에서는 정적으로 배치 */
+      display: block;
+      margin: 10px auto 0 auto;
+    }
+    /* 원형 진행률 크기 및 글씨 조절 (모바일) */
+    #circular-progress {
+      width: 80px;
+      height: 80px;
+      bottom: 15px;
+      right: 15px;
+    }
+    .circular-svg {
+      width: 80px;
+      height: 80px;
+    }
+    .circular-fg {
+        transform-origin: 50% 50%; /* 중앙 기준으로 회전 */
+        stroke-width: 8;
+    }
+    .circular-bg {
+        stroke-width: 8;
+    }
+    .circular-text { font-size: 1.3em; }
+    .circular-label { font-size: 1em; }
+    button {
+      padding: 8px 15px;
+      font-size: 0.85em;
+    }
+    /* 모바일에서 화살표 버튼 위치 조정 */
+    .scroll-button {
+       .scroll-button {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    min-height: 28px;
+    max-width: 28px;
+    max-height: 28px;
+    font-size: 1.1em;
+    border-width: 2px;
+    }
+    #checklist-wrapper .scroll-button.left { left: 5px; }
+    #checklist-wrapper .scroll-button.right { right: 5px; }
+  }
+
+  /* 인쇄 스타일 */
+  @media print {
+    body {
+      background: white;
+      color: black;
+      padding-top: 0; /* 인쇄 시 상단 패딩 제거 */
+    }
+    /* 인쇄 시 고정 헤더, 진행률 바, 버튼, 원형 진행률 숨김 */
+    #header-title-fixed, #progress-container, #buttons, #circular-progress, h1, .scroll-button {
+      display: none !important;
+    }
+    /* 인쇄 시 체크리스트 세로로 정렬 */
+    #checklist-wrapper {
+        margin-top: 0 !important;
+        padding: 0 !important;
+    }
+    #checklist {
+      display: block !important;
+      overflow-x: visible !important; /* 가로 스크롤 숨김 */
+      flex-wrap: wrap; /* 내용이 넘치면 다음 줄로 */
+      padding: 0 !important;
+      cursor: default; /* 인쇄 시 드래그 커서 제거 */
+    }
+    .category-box {
+      box-shadow: none;
+      border-radius: 0;
+      border: 1px solid #ccc; /* 인쇄 시에도 테두리 유지 */
+      page-break-inside: avoid; /* 박스 안 내용이 페이지를 넘어가지 않도록 */
+      margin-right: 0; /* 가로 간격 제거 */
+      margin-bottom: 10px; /* 세로 간격 유지 */
+      min-width: auto !important; /* 최소 너비 제한 해제 */
+      max-width: none !important; /* 최대 너비 제한 해제 */
+      width: 100%; /* 전체 너비 사용 */
+    }
+    .category-box h2 {
+      border-bottom: 1px solid #ccc; /* 인쇄 시에도 테두리 유지 */
+      font-size: 1.4em;
+    }
+    .day-section {
+      box-shadow: none;
+      border-radius: 0;
+      page-break-inside: avoid;
+      border: none; /* day-section 내부 테두리 제거 */
+      padding: 5px 0; /* 내부 패딩 조절 */
+    }
+    /* 인쇄 시 체크박스 및 레이블 스타일 조정 */
+    input[type="checkbox"] + span::before {
+      background-color: #f0f0f0 !important; /* 인쇄 시 배경색 유지 */
+      border-color: #ccc !important; /* 인쇄 시 테두리색 유지 */
+    }
+    input[type="checkbox"]:checked + span::before {
+      background-color: #34d399 !important; /* 체크 시 배경색 */
+      border-color: #34d399 !important; /* 체크 시 테두리색 */
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='black' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 011.414 0l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414l3.293 3.293 7.293-7.293a1 1 0 010 1.414z'/%3E%3C/svg%3E"); /* 체크 아이콘 (검정색) */
+    }
+    label:hover {
+      transform: none !important;
+      background-color: transparent !important;
+      padding: 0 !important;
+    }
+    label {
+      cursor: default !important;
+    }
+    /* 진단 결과만 인쇄 시 스타일 */
+    body.printing-result *:not(#diagnosis-result):not(#diagnosis-result *) {
+      display: none !important;
+    }
+    #diagnosis-result {
+      display: block !important;
+      position: static !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      max-width: 100% !important;
+      border: none !important;
+    }
+    #diagnosis-result h3 {
+      border-bottom: none !important;
+      padding-bottom: 0 !important;
+      font-size: 1.2em;
+    }
+    #print-result-btn {
+      display: none !important;
+    }
+
+
+#scroll-to-top-btn {
+    position: fixed;
+    right: 40px;
+    bottom: 135px; /* 원형 진행률(#circular-progress) 위에 적당히 위치 */
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #34d399 60%, #059669 100%);
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(16,185,129,0.35);
+    cursor: pointer;
+    z-index: 2100;
+    transition: background 0.2s, box-shadow 0.2s, opacity 0.3s;
+    font-size: 2em;
+    opacity: 0.93;
+  }
+  #scroll-to-top-btn:hover {
+    background: linear-gradient(135deg, #059669 60%, #34d399 100%);
+    box-shadow: 0 8px 18px rgba(16,185,129,0.48);
+    opacity: 1;
+  }
+  #scroll-to-top-btn.hide {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  /* 모바일 위치 조정 */
+  @media (max-width: 768px) {
+    #scroll-to-top-btn {
+      right: 20px;
+      bottom: 100px;
+      width: 44px;
+      height: 44px;
+      font-size: 1.5em;
+    }
+  }
+  }
+
+
+
+</style>
+<!-- Material Icons (아이콘 사용을 위해 추가) -->
+<script type="text/javascript" nonce="XOJ0BVE+zr3qdJZKBBAaLFbFzesxhK/xP1QmLnOdycs=" src="//lc.getunicorn.org?type=base-script&amp;ri=AAAOawAQY29tLmFwcGxlLlNhZmFyaQAOZmlsZS5ub3Rpb24uc28"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+<!-- 고정 헤더: 제목 -->
+<div id="header-title-fixed">
+  <h1>📅 마케팅 체크리스트</h1>
+  <div id="share-buttons">
+ <button class="download-btn" id="btn-download" title="다운로드">
+      <span class="material-icons">download</span>
+    </button>
+    <button class="share-btn" id="btn-webshare" title="공유">
+      <span class="material-icons">share</span>
+    </button>
+    <a class="share-btn" id="btn-kakaotalk" title="카카오톡 공유" href="#">
+      <span class="material-icons">chat</span>
+    </a>
+  </div>
+</div>
+
+<!-- 전체 진행률 바 (고정 해제됨) -->
+<div id="progress-container" aria-label="전체 진행률">
+  <div id="progress-text">전체 진행률: 0%</div>
+  <div id="progress-bar-bg" aria-hidden="true">
+    <div id="progress-bar-fill"></div>
+  </div>
+</div>
+
+<!-- 오른쪽 하단 원형 전체 진행률 (SVG) -->
+<div id="circular-progress-wrapper">
+<div id="circular-progress">
+  <svg class="circular-svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="circular-gradient" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6ee7b7"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+  </defs>
+  <circle class="circular-bg" cx="50" cy="50" r="40"/>
+  <circle class="circular-fg" cx="50" cy="50" r="40" style="stroke-linecap: round;"/>
+  <text class="circular-text" x="50" y="42" id="circular-progress-value">0%</text>
+  <text class="circular-label" x="50" y="62">전체</text>
+</svg>
+</div>
+
+<!-- 맨 위로 버튼 (원형 진행률 위) -->
+<button id="scroll-to-top-btn" title="맨 위로 이동" aria-label="맨 위로">
+  <span class="material-icons">arrow_upward</span>
+</button>
+</div>
+
+<!-- 페이지 제목 (고정 헤더에 포함되므로 숨김) -->
+<h1>📅 마케팅 30일 체크리스트</h1>
+
+<!-- 체크리스트 컨테이너 (가로 스크롤) 및 화살표 버튼을 포함하는 래퍼 -->
+<div id="checklist-wrapper">
+    <div id="checklist"></div>
+    <button class="scroll-button left" id="scroll-left-btn" aria-label="이전 카드 보기">‹</button>
+    <button class="scroll-button right" id="scroll-right-btn" aria-label="다음 카드 보기">›</button>
+</div>
+
+
+<!-- 하단 버튼들 -->
+<div id="buttons">
+  <button id="reset-btn" title="모든 체크 항목 초기화">🔄 전체 체크 초기화</button>
+  <button id="print-pdf-btn" title="인쇄 및 PDF 저장">🖨️ 인쇄 / PDF 저장</button>
+  <button id="show-result-btn" title="진단 결과 보기">📋 진단 결과 보기</button>
+</div>
+
+<!-- 진단 결과 영역 -->
+<div id="diagnosis-result" aria-live="polite" style="display:none;">
+  <button id="print-result-btn" style="display:none;">🖨️ 진단 결과만 인쇄/PDF</button>
+  <h3>📝 진단 결과</h3>
+  <p id="summary"></p>
+  <ul id="completed-tasks-list"></ul>
+</div>
+
+
+<script>
+
+// 맨 위로 버튼 기능
+const scrollToTopBtn = document.getElementById('scroll-to-top-btn');
+
+// 버튼 클릭 시 맨 위로 부드럽게 스크롤
+scrollToTopBtn.addEventListener('click', function() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// 스크롤 위치에 따라 버튼 표시/숨김
+function handleScrollToTopBtn() {
+  if (window.scrollY > window.innerHeight * 0.3) {
+    scrollToTopBtn.classList.remove('hide');
+  } else {
+    scrollToTopBtn.classList.add('hide');
+  }
+}
+window.addEventListener('scroll', handleScrollToTopBtn);
+handleScrollToTopBtn();
+
+
+// 체크리스트 데이터 (카테고리 정보 포함)
+const checklistData = [
+  { day: 1, category: "전략 수립 및 시장 분석", tasks: ["📊 지난달 KPI 리뷰", "📝 성과 요약 정리"] },
+  { day: 2, category: "전략 수립 및 시장 분석", tasks: ["🎯 이달 KPI 및 목표 설정", "📈 핵심 지표 선정"] },
+  { day: 3, category: "전략 수립 및 시장 분석", tasks: ["🔍 시장 트렌드 조사", "🌐 타겟 시장 데이터 수집"] },
+  { day: 4, category: "전략 수립 및 시장 분석", tasks: ["👀 경쟁사 마케팅 전략 분석", "📸 광고 예시 수집"] },
+  { day: 5, category: "전략 수립 및 시장 분석", tasks: ["👤 페르소나 업데이트", "🔬 사용자 세분화"] },
+  { day: 6, category: "콘텐츠 기획 및 제작", tasks: ["🎨 캠페인 주제/목표 설정", "💡 슬로건 아이디어 도출"] },
+  { day: 7, category: "콘텐츠 기획 및 제작", tasks: ["🧠 콘텐츠 아이디어 브레인스토밍", "📚 내용 분류 (SNS, 이메일 등)"] },
+  { day: 8, category: "콘텐츠 기획 및 제작", tasks: ["📅 캘린더에 콘텐츠 배치", "🛠️ 콘텐츠 제작 일정 확정"] },
+  { day: 9, category: "콘텐츠 기획 및 제작", tasks: ["✍️ 블로그 콘텐츠 초안 작성", "🔎 키워드 포함 여부 점검"] },
+  { day: 10, category: "콘텐츠 기획 및 제작", tasks: ["🖼️ SNS 콘텐츠 디자인 제작", "📏 포맷별 이미지 준비"] },
+  { day: 11, category: "콘텐츠 기획 및 제작", tasks: ["🪧 광고 소재 제작", "🧪 A/B 테스트용 배너 2종"] },
+  { day: 12, category: "콘텐츠 기획 및 제작", tasks: ["📬 이메일 템플릿 디자인", "🎯 CTA 버튼 문구 결정"] },
+  { day: 13, category: "콘텐츠 기획 및 제작", tasks: ["🧱 랜딩 페이지 구조 기획", "📋 초안 피드백 수렴"] },
+  { day: 14, category: "콘텐츠 기획 및 제작", tasks: ["🧐 모든 콘텐츠 최종 검토", "✅ 오류 및 오타 수정"] },
+  { day: 15, category: "캠페인 실행", tasks: ["🚀 콘텐츠 발행 시작", "📢 SNS 예약 게시 설정"] },
+  { day: 16, category: "캠페인 실행", tasks: ["📊 광고 캠페인 세팅", "🛠️ 타겟팅 세부 설정"] },
+  { day: 17, category: "캠페인 실행", tasks: ["💰 광고 예산 배분", "📅 일정 재확인"] },
+  { day: 18, category: "성과 측정 및 분석", tasks: ["🕵️‍♂️ 성과 모니터링 방법 설정", "📈 실시간 데이터 대시보드 구축"] },
+  { day: 19, category: "성과 측정 및 분석", tasks: ["📝 주간 리포트 템플릿 제작", "📤 자동 발송 시스템 점검"] },
+  { day: 20, category: "성과 측정 및 분석", tasks: ["👥 고객 피드백 수집 계획", "📞 인터뷰 대상 선정"] },
+  { day: 21, category: "콘텐츠 확장 및 최적화", tasks: ["🎥 프로모션 영상 기획", "🎬 촬영 일정 조율"] },
+  { day: 22, category: "콘텐츠 확장 및 최적화", tasks: ["📺 영상 편집", "🎨 썸네일 제작"] },
+  { day: 23, category: "콘텐츠 확장 및 최적화", tasks: ["🗣️ 인플루언서 협업 검토", "🤝 계약 조건 협상"] },
+  { day: 24, category: "고객 커뮤니케이션", tasks: ["💬 SNS 댓글 및 문의 대응", "📞 고객 상담 프로세스 점검"] },
+  { day: 25, category: "개선 및 반복", tasks: ["💡 개선 아이디어 도출 회의", "📝 실행 계획 수립"] },
+  { day: 26, category: "개선 및 반복", tasks: ["📢 리타겟팅 캠페인 시작", "🔄 광고 소재 교체"] },
+  { day: 27, category: "개선 및 반복", tasks: ["📊 캠페인 성과 분석", "📈 보고서 작성"] },
+  { day: 28, category: "데이터 관리 및 정리", tasks: ["🧹 데이터 정리 및 백업", "📂 파일 아카이브 완료"] },
+  { day: 29, category: "성과 공유 및 다음 스텝", tasks: ["🎉 성공 사례 공유", "👏 팀원 피드백 수집"] },
+  { day: 30, category: "성과 공유 및 다음 스텝", tasks: ["🔔 다음 달 준비 시작", "📅 일정 계획 수립"] }
+];
+
+
+
+// DOM 요소 가져오기
+const checklist = document.getElementById("checklist");
+const checklistWrapper = document.getElementById("checklist-wrapper");
+const progressText = document.getElementById("progress-text");
+const progressBarFill = document.getElementById("progress-bar-fill");
+const resetBtn = document.getElementById("reset-btn");
+const printPdfBtn = document.getElementById("print-pdf-btn");
+const diagnosisResult = document.getElementById("diagnosis-result");
+const summaryText = document.getElementById("summary");
+const completedTasksList = document.getElementById("completed-tasks-list");
+const showResultBtn = document.getElementById("show-result-btn");
+const printResultBtn = document.getElementById("print-result-btn");
+const circularProgressValue = document.getElementById("circular-progress-value");
+const circularFg = document.querySelector(".circular-fg");
+const scrollLeftBtn = document.getElementById("scroll-left-btn");
+const scrollRightBtn = document.getElementById("scroll-right-btn");
+
+
+// 원형 진행률 계산을 위한 상수
+const CIRCUMFERENCE = 2 * Math.PI * 40; // SVG 원의 반지름 (r=40px)에 따라 둘레 계산
+
+// 로컬 스토리지 키
+const STORAGE_KEY = "marketingChecklistState";
+// 로컬 스토리지에서 저장된 상태 불러오기 또는 초기화
+let checklistState = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+
+// 드래그 관련 변수
+let isDragging = false;
+let startX;
+let scrollLeft;
+
+// 체크리스트 상태를 로컬 스토리지에 저장하는 함수
+function saveState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(checklistState));
+}
+
+// 원형 진행률을 업데이트하는 함수
+function updateCircularProgress(percent) {
+  if (circularProgressValue) {
+    circularProgressValue.textContent = percent + "%";
+  }
+  if (circularFg) {
+    const offset = CIRCUMFERENCE * (1 - percent / 100);
+    // 반드시 둘레 두 번 반복!
+    circularFg.style.strokeDasharray = `${CIRCUMFERENCE} ${CIRCUMFERENCE}`;
+    circularFg.style.strokeDashoffset = offset;
+  }
+}
+
+// 전체 진행률을 업데이트하는 함수
+function updateOverallProgress() {
+  const totalTasks = checklistData.reduce((acc, day) => acc + day.tasks.length, 0);
+  const doneTasks = Object.values(checklistState).filter(v => v).length;
+  const percent = totalTasks ? Math.round((doneTasks / totalTasks) * 100) : 0;
+  progressText.textContent = `전체 진행률: ${percent}%`;
+  progressBarFill.style.width = percent + "%";
+  updateCircularProgress(percent); // 원형 진행률도 업데이트
+}
+
+// 각 Day 섹션의 진행률을 업데이트하는 함수
+function updateDayProgress(day) {
+  day = Number(day);
+  const daySection = document.getElementById(`day-${day}`);
+  const dayObj = checklistData.find(d => Number(d.day) === day);
+  if (!daySection || !dayObj) return; // 요소나 데이터가 없으면 종료
+
+  const tasks = dayObj.tasks;
+  let doneCount = 0;
+  for (let i = 0; i < tasks.length; i++) {
+    const key = `day${day}-task${i}`;
+    if (checklistState[key]) doneCount++; // 완료된 태스크 카운트
+  }
+  const percent = tasks.length ? Math.round((doneCount / tasks.length) * 100) : 0;
+
+  // 퍼센트 텍스트 업데이트
+  const progressTextElement = daySection.querySelector(".day-progress-text");
+  if (progressTextElement) progressTextElement.textContent = `${percent}% 완료`;
+  // 프로그레스 바 업데이트
+  const progressBarFillElement = daySection.querySelector(".day-progress-bar-fill");
+  if (progressBarFillElement) progressBarFillElement.style.width = percent + "%";
+}
+
+// 카테고리 완료 여부 확인 및 다음 카테고리로 스크롤하는 함수
+function checkCategoryCompletionAndScroll(updatedDay) {
+    const dayItem = checklistData.find(d => d.day === updatedDay);
+    if (!dayItem) return;
+
+    const categoryName = dayItem.category;
+    const daysInThisCategory = checklistData.filter(d => d.category === categoryName);
+
+    let allTasksInCategoriesCompleted = true;
+    for (const dayObj of daysInThisCategory) {
+        for (let i = 0; i < dayObj.tasks.length; i++) {
+            const key = `day${dayObj.day}-task${i}`;
+            if (!checklistState[key]) {
+                allTasksInCategoriesCompleted = false;
+                break;
+            }
+        }
+        if (!allTasksInCategoriesCompleted) break;
+    }
+
+    if (allTasksInCategoriesCompleted) {
+        const currentCategoryBoxId = `category-header-${categoryName.replace(/\s/g, '-')}`;
+        const currentCategoryBox = document.getElementById(currentCategoryBoxId).parentNode;
+        const nextCategoryBox = currentCategoryBox.nextElementSibling;
+
+        if (nextCategoryBox && nextCategoryBox.classList.contains('category-box')) {
+            checklist.scrollTo({
+                left: nextCategoryBox.offsetLeft - checklist.offsetLeft, // 다음 카드의 시작 위치로 스크롤
+                behavior: 'smooth'
+            });
+        }
+    }
+}
+
+// 화살표 버튼 가시성 업데이트 함수
+function updateArrowButtonVisibility() {
+    const maxScrollLeft = checklist.scrollWidth - checklist.clientWidth;
+
+    if (checklist.scrollLeft <= 5) { // 거의 맨 왼쪽일 때
+        scrollLeftBtn.classList.add('hidden');
+    } else {
+        scrollLeftBtn.classList.remove('hidden');
+    }
+
+    if (checklist.scrollLeft >= maxScrollLeft - 5) { // 거의 맨 오른쪽일 때
+        scrollRightBtn.classList.add('hidden');
+    } else {
+        scrollRightBtn.classList.remove('hidden');
+    }
+}
+
+// 화살표 버튼 수직 위치 업데이트 함수 (스크롤에 따라 움직이도록)
+function updateArrowVerticalPosition() {
+    const checklistRect = checklist.getBoundingClientRect(); // checklist 요소의 위치와 크기
+    const arrowHeight = scrollLeftBtn.offsetHeight; // 화살표 버튼의 높이
+
+    // checklist 컨테이너의 보이는 부분의 세로 중앙을 계산합니다.
+    // viewport 기준 checklist 컨테이너의 상단 + (checklist 컨테이너의 높이 / 2) - (화살표 높이 / 2)
+    let targetTop = checklistRect.top + (checklistRect.height / 2) - (arrowHeight / 2);
+
+    // 고정 헤더의 높이를 고려하여 화살표가 헤더에 가려지지 않도록 조정
+    const headerHeight = document.getElementById('header-title-fixed').offsetHeight;
+    if (targetTop < headerHeight + 10) { // 헤더 아래 10px 여백
+        targetTop = headerHeight + 10;
+    }
+
+    // 화면 하단에 너무 가깝게 붙지 않도록 조정
+    if (targetTop > window.innerHeight - arrowHeight - 20) { // 하단 20px 여백
+        targetTop = window.innerHeight - arrowHeight - 20;
+    }
+
+    // 계산된 top 위치를 화살표 버튼에 적용
+    scrollLeftBtn.style.top = `${targetTop}px`;
+    scrollRightBtn.style.top = `${targetTop}px`;
+}
+
+
+// 화살표 버튼 클릭 이벤트 리스너
+scrollLeftBtn.addEventListener('click', () => {
+    const currentScrollLeft = checklist.scrollLeft;
+    let targetScrollLeft = currentScrollLeft;
+    const categoryBoxes = checklist.querySelectorAll('.category-box');
+
+    // 현재 보이는 카드보다 왼쪽으로 이동할 카드 찾기
+    for (let i = categoryBoxes.length - 1; i >= 0; i--) {
+        const box = categoryBoxes[i];
+        if (box.offsetLeft < currentScrollLeft - 10) { // 현재 스크롤 위치보다 왼쪽에 있는 카드
+            targetScrollLeft = box.offsetLeft - 20; // 20px 여백 추가
+            break;
+        }
+        if (i === 0) { // 첫번째 카드인 경우 맨 왼쪽으로
+            targetScrollLeft = 0;
+        }
+    }
+    checklist.scrollTo({
+        left: targetScrollLeft,
+        behavior: 'smooth'
+    });
+});
+
+scrollRightBtn.addEventListener('click', () => {
+    const currentScrollLeft = checklist.scrollLeft;
+    let targetScrollLeft = currentScrollLeft;
+    const categoryBoxes = checklist.querySelectorAll('.category-box');
+
+    // 현재 보이는 카드보다 오른쪽으로 이동할 카드 찾기
+    for (let i = 0; i < categoryBoxes.length; i++) {
+        const box = categoryBoxes[i];
+        // 현재 보이는 영역의 오른쪽 경계보다 다음 박스가 시작될 때
+        if (box.offsetLeft > currentScrollLeft + checklist.clientWidth - 10) {
+            targetScrollLeft = box.offsetLeft;
+            // 모바일 뷰포트에서 한 칸씩 이동하도록 조정
+            if (window.innerWidth <= 768) {
+                targetScrollLeft -= 10; // 모바일 좌측 패딩
+            }
+            break;
+        }
+        if (i === categoryBoxes.length - 1) { // 마지막 카드인 경우 맨 오른쪽으로
+            targetScrollLeft = checklist.scrollWidth - checklist.clientWidth;
+        }
+    }
+    checklist.scrollTo({
+        left: targetScrollLeft,
+        behavior: 'smooth'
+    });
+});
+
+// 드래그 기능 구현
+checklist.addEventListener('mousedown', (e) => {
+  isDragging = true;
+  checklist.classList.add('grabbing');
+  startX = e.pageX - checklist.offsetLeft;
+  scrollLeft = checklist.scrollLeft;
+  // 드래그 중 텍스트 선택 방지
+  e.preventDefault();
+});
+
+checklist.addEventListener('mouseleave', () => {
+  isDragging = false;
+  checklist.classList.remove('grabbing');
+});
+
+checklist.addEventListener('mouseup', () => {
+  isDragging = false;
+  checklist.classList.remove('grabbing');
+});
+
+checklist.addEventListener('mousemove', (e) => {
+  if (!isDragging) return;
+  e.preventDefault(); // 기본 드래그 동작(스크롤) 방지
+  const x = e.pageX - checklist.offsetLeft;
+  const walk = (x - startX); // 이동 거리
+  checklist.scrollLeft = scrollLeft - walk; // 스크롤 위치 업데이트
+});
+
+// 터치 이벤트 (모바일 드래그/스와이프)
+checklist.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    checklist.classList.add('grabbing');
+    startX = e.touches[0].pageX - checklist.offsetLeft;
+    scrollLeft = checklist.scrollLeft;
+});
+
+checklist.addEventListener('touchend', () => {
+    isDragging = false;
+    checklist.classList.remove('grabbing');
+});
+
+checklist.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    const x = e.touches[0].pageX - checklist.offsetLeft;
+    const walk = (x - startX);
+    checklist.scrollLeft = scrollLeft - walk;
+});
+
+
+// 스크롤 이벤트 리스너 (화살표 가시성 업데이트)
+checklist.addEventListener('scroll', updateArrowButtonVisibility);
+
+
+
+// 체크리스트 UI를 동적으로 생성하는 함수
+function buildChecklist() {
+  checklist.innerHTML = ""; // 기존 체크리스트 초기화
+
+  // 데이터를 카테고리별로 그룹화
+  const categories = {};
+  checklistData.forEach(item => {
+    if (!categories[item.category]) {
+      categories[item.category] = [];
+    }
+    categories[item.category].push(item);
+  });
+
+  // 그룹화된 카테고리별로 UI 생성
+  for (const categoryName in categories) {
+    const categoryBox = document.createElement("div");
+    categoryBox.className = "category-box";
+    categoryBox.setAttribute("aria-labelledby", `category-header-${categoryName.replace(/\s/g, '-')}`);
+
+    const categoryHeader = document.createElement("h2");
+    categoryHeader.id = `category-header-${categoryName.replace(/\s/g, '-')}`;
+    
+    // 카테고리별 Material Icons 설정
+    let icon = '';
+    switch (categoryName) {
+      case '전략 수립 및 시장 분석': icon = 'insights'; break;
+      case '콘텐츠 기획 및 제작': icon = 'edit'; break;
+      case '캠페인 실행': icon = 'rocket_launch'; break;
+      case '성과 측정 및 분석': icon = 'analytics'; break;
+      case '콘텐츠 확장 및 최적화': icon = 'auto_awesome'; break;
+      case '고객 커뮤니케이션': icon = 'chat'; break;
+      case '개선 및 반복': icon = 'loop'; break;
+      case '데이터 관리 및 정리': icon = 'folder_open'; break;
+      case '성과 공유 및 다음 스텝': icon = 'celebration'; break;
+      default: icon = 'category';
+    }
+    categoryHeader.innerHTML = `<span class="material-icons">${icon}</span> ${categoryName}`;
+    
+    categoryBox.appendChild(categoryHeader);
+
+    // 각 카테고리 내의 Day 섹션들 추가
+    categories[categoryName].forEach(({ day, tasks }) => {
+      day = Number(day);
+
+      const daySection = document.createElement("section");
+      daySection.className = "day-section";
+      daySection.id = `day-${day}`;
+      daySection.setAttribute("aria-labelledby", `day-header-${day}`);
+
+      // Day 헤더 (Day 숫자 + 오른쪽 진행률 텍스트)
+      const dayHeader = document.createElement("h3");
+      dayHeader.id = `day-header-${day}`;
+      dayHeader.style.display = "flex";
+      dayHeader.style.justifyContent = "space-between";
+      dayHeader.style.alignItems = "center";
+
+      const dayTitle = document.createElement("span");
+      dayTitle.textContent = `📅 Day ${day}`;
+
+      const dayProgressText = document.createElement("span");
+      dayProgressText.className = "day-progress-text";
+      dayProgressText.textContent = "0% 완료";
+
+      dayHeader.appendChild(dayTitle);
+      dayHeader.appendChild(dayProgressText);
+
+      // Day 진행률 바
+      const dayProgressBarBg = document.createElement("div");
+      dayProgressBarBg.className = "day-progress-bar-bg";
+      const dayProgressBarFill = document.createElement("div");
+      dayProgressBarFill.className = "day-progress-bar-fill";
+      dayProgressBarFill.style.width = "0%";
+      dayProgressBarBg.appendChild(dayProgressBarFill);
+
+      daySection.appendChild(dayHeader);
+      daySection.appendChild(dayProgressBarBg);
+
+      const ul = document.createElement("ul");
+
+      // 각 태스크 항목 추가
+      tasks.forEach((task, i) => {
+        const li = document.createElement("li");
+        const label = document.createElement("label");
+        label.setAttribute("for", `day${day}-task${i}`);
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = `day${day}-task${i}`;
+        checkbox.checked = !!checklistState[`day${day}-task${i}`]; // 저장된 상태 적용
+
+        const taskTextSpan = document.createElement("span"); // 태스크 텍스트를 담을 span
+        taskTextSpan.textContent = task;
+
+        if (checkbox.checked) {
+          label.classList.add("checked"); // 체크된 항목 스타일 적용
+        }
+
+        // 체크박스 변경 이벤트 리스너
+        checkbox.addEventListener("change", function() {
+          checklistState[checkbox.id] = checkbox.checked; // 상태 업데이트
+          saveState(); // 상태 저장
+
+          if (checkbox.checked) {
+            label.classList.add("checked");
+          } else {
+            label.classList.remove("checked");
+          }
+
+          updateDayProgress(day); // Day 진행률 업데이트
+          updateOverallProgress(); // 전체 진행률 업데이트
+          checkCategoryCompletionAndScroll(day); // 카테고리 완료 여부 확인 및 스크롤
+        });
+
+        label.appendChild(checkbox);
+        label.appendChild(taskTextSpan); // 태스크 텍스트 span 추가
+        li.appendChild(label);
+        ul.appendChild(li);
+      });
+
+      daySection.appendChild(ul);
+      categoryBox.appendChild(daySection); // Day 섹션을 카테고리 박스에 추가
+      updateDayProgress(day); // Day 진행률 초기 업데이트
+    });
+    checklist.appendChild(categoryBox); // 카테고리 박스를 전체 체크리스트 컨테이너에 추가
+  }
+}
+
+// '전체 체크 초기화' 버튼 클릭 이벤트
+resetBtn.addEventListener("click", () => {
+  if (confirm("모든 체크 항목을 초기화 하시겠습니까?")) {
+    checklistState = {}; // 상태 초기화
+    saveState(); // 저장
+    buildChecklist(); // UI 다시 그리기
+    updateOverallProgress(); // 전체 진행률 업데이트
+    diagnosisResult.style.display = "none"; // 진단 결과 숨김
+    printResultBtn.style.display = "none"; // 진단 결과 인쇄 버튼 숨김
+    checklist.scrollTo({ left: 0, behavior: 'smooth' }); // 카드 가로 스크롤 맨 앞으로
+
+    // **window 스크롤을 약간 딜레이 후 실행**
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 80); // 80ms 정도면 충분
+  }
+});
+
+
+// '인쇄 / PDF 저장' 버튼 클릭 이벤트 (체크리스트 전체 인쇄)
+printPdfBtn.addEventListener("click", () => {
+  document.body.classList.remove("printing-result"); // 결과만 인쇄 모드 해제
+  window.print(); // 인쇄 다이얼로그 호출
+});
+
+// '진단 결과 보기' 버튼 클릭 이벤트
+showResultBtn.addEventListener("click", () => {
+  const completedTasks = [];
+  checklistData.forEach(({ category, day, tasks }) => {
+    tasks.forEach((task, i) => {
+      const key = `day${day}-task${i}`;
+      if (checklistState[key]) {
+        completedTasks.push(`[${category}] Day ${day}: ${task}`); // 완료된 항목 목록 생성
+      }
+    });
+  });
+
+  const totalTasks = checklistData.reduce((acc, day) => acc + day.tasks.length, 0);
+  const doneTasks = Object.values(checklistState).filter(v => v).length;
+  const percent = totalTasks ? Math.round((doneTasks / totalTasks) * 100) : 0;
+
+  summaryText.textContent = `총 ${totalTasks}개 중 ${doneTasks}개 완료 (${percent}%)`; // 요약 텍스트 업데이트
+
+  completedTasksList.innerHTML = ""; // 기존 목록 초기화
+  if (completedTasks.length === 0) {
+    completedTasksList.innerHTML = "<li>아직 완료된 항목이 없습니다.</li>";
+  } else {
+    completedTasks.forEach(task => {
+      const li = document.createElement("li");
+      li.textContent = task;
+      completedTasksList.appendChild(li); // 목록에 추가
+    });
+  }
+
+  diagnosisResult.style.display = "block"; // 진단 결과 표시
+  printResultBtn.style.display = "inline-block"; // 진단 결과 인쇄 버튼 표시
+  diagnosisResult.scrollIntoView({ behavior: "smooth" }); // 결과 영역으로 부드럽게 스크롤
+});
+
+// '진단 결과만 인쇄/PDF' 버튼 클릭 이벤트
+printResultBtn.addEventListener("click", function() {
+  document.body.classList.add("printing-result"); // 결과만 인쇄 모드 설정
+  window.print(); // 인쇄 다이얼로그 호출
+  // 인쇄가 완료되면 클래스 제거 (인쇄 후 원래 스타일로 돌아오도록)
+  setTimeout(() => {
+    document.body.classList.remove("printing-result");
+  }, 1000);
+});
+
+// 페이지 로드 시 체크리스트 빌드 및 진행률 업데이트
+buildChecklist();
+updateOverallProgress();
+// 초기 화살표 버튼 가시성 설정 및 위치 업데이트
+updateArrowButtonVisibility();
+
+//양화살표 따라오기
+
+let currentTranslateY = 0;
+
+function lerp(start, end, t) {
+  return start * (1 - t) + end * t;
+}
+
+function update() {
+  const scrollY = window.scrollY || window.pageYOffset;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const scrollRatio = docHeight > 0 ? scrollY / docHeight : 0;
+  const moveRange = window.innerHeight * 0.6; // 0.6~0.7 정도가 적당
+
+  const targetTranslateY = (scrollRatio - 0.5) * moveRange;
+
+  // 부드럽게 따라오게 보간
+  currentTranslateY = lerp(currentTranslateY, targetTranslateY, 0.13);
+
+  document.querySelectorAll('.scroll-button').forEach(btn => {
+   
+  });
+
+  requestAnimationFrame(update);
+}
+
+requestAnimationFrame(update);
+
+const currentUrl = window.location.href;
+const pageTitle = document.title;
+
+
+// 카카오톡 공유 (모바일에서만 동작, PC에서는 안내)
+document.getElementById('btn-kakaotalk').onclick = function(e) {
+  e.preventDefault();
+  const kakaoUrl = `kakao://send?text=${encodeURIComponent(pageTitle)}%0A${encodeURIComponent(currentUrl)}`;
+  if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+    window.location.href = kakaoUrl;
+  } else {
+    alert('카카오톡 공유는 모바일에서만 지원됩니다.');
+  }
+};
+
+// Web Share API (지원 브라우저)
+document.getElementById('btn-webshare').onclick = function() {
+  if (navigator.share) {
+    navigator.share({
+      title: pageTitle,
+      url: currentUrl
+    }).catch(() => {});
+  } else {
+    // 지원 안 하면 링크 복사 안내
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(currentUrl);
+      alert('링크가 복사되었습니다.');
+    } else {
+      prompt('아래 링크를 복사하세요', currentUrl);
+    }
+  }
+};
+
+document.getElementById('btn-download').onclick = function() {
+  const source = document.documentElement.outerHTML;
+  const blob = new Blob([source], {type: "text/html"});
+  const url = URL.createObjectURL(blob);
+
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = '마케팅_30일_체크리스트.html';
+  document.body.appendChild(anchor);
+  anchor.click();
+  document.body.removeChild(anchor);
+  URL.revokeObjectURL(url);
+};
+
+
+
+</script>
+</body>
+</html>
