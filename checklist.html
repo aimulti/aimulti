@@ -43,7 +43,29 @@ body {
   display: block;
   opacity: 1;
 }
-.download-btn {
+
+/* 앱 제목 (수정 가능) */
+#app-title {
+  font-size: 1.7em;
+  color: #2c3e50;
+  margin: 0 0 0 24px;
+  font-weight: bold;
+  letter-spacing: 0.02em;
+  display: block;
+  opacity: 1;
+  cursor: text; /* 텍스트 편집 커서 */
+  outline: none; /* 포커스 시 아웃라인 제거 */
+  min-width: 150px; /* 편집 시 최소 너비 */
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+#app-title:focus {
+  background-color: #e0f2f7;
+  box-shadow: 0 0 0 2px rgba(16,185,129,0.3);
+}
+
+
+.download-btn, .header-action-btn { /* 일반 버튼 스타일 통일 */
   background: none !important;
   border: none !important;
   box-shadow: none !important;
@@ -60,7 +82,7 @@ body {
   border-radius: 0 !important;
   transition: color 0.2s;
 }
-.download-btn:hover {
+.download-btn:hover, .header-action-btn:hover {
   color: #059669;
   background: none !important;
   border: none !important;
@@ -336,6 +358,8 @@ background: none !important;
     flex: 0 0 auto; /* 플렉스 아이템이 축소되지 않도록 설정 */
     scroll-snap-align: start; /* 카드 시작 지점에 스냅 */
     max-width: 400px; /* PC에서 너무 넓어지지 않도록 최대 너비 설정 */
+    display: flex; /* 내부 요소 정렬 */
+    flex-direction: column; /* 세로 정렬 */
   }
 
   /* 마지막 카드 margin-right 제거 */
@@ -353,12 +377,36 @@ background: none !important;
     display: flex;
     align-items: center;
     font-weight: bold;
+    justify-content: space-between; /* 아이콘과 제목 간격 조정 */
   }
   .category-box h2 .material-icons { /* Material Icons 스타일 */
     margin-right: 8px;
     color: #2d6a4f;
     font-size: 1.2em;
   }
+
+  .category-actions {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .edit-category-btn, .delete-category-btn {
+    color: #10b981;
+    cursor: pointer;
+    font-size: 1em;
+    margin-left: 5px; /* 아이콘 사이 간격 */
+    transition: color 0.2s;
+  }
+  .edit-category-btn:hover {
+    color: #059669;
+  }
+  .delete-category-btn {
+    color: #e63946;
+  }
+  .delete-category-btn:hover {
+    color: #d62828;
+  }
+
 
   .day-section {
     background: #fdfdfd;
@@ -378,6 +426,29 @@ background: none !important;
     justify-content: space-between;
     align-items: center;
     font-weight: 600;
+  }
+  .day-section h3 .day-actions { /* Day 액션 버튼들을 위한 컨테이너 */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .day-section h3 .edit-day-btn { /* Day 수정 버튼 */
+    color: #10b981;
+    cursor: pointer;
+    font-size: 1em;
+    transition: color 0.2s;
+  }
+  .day-section h3 .edit-day-btn:hover {
+    color: #059669;
+  }
+  .day-section h3 .delete-day-btn {
+    color: #e63946;
+    cursor: pointer;
+    font-size: 1em;
+    transition: color 0.2s;
+  }
+  .day-section h3 .delete-day-btn:hover {
+    color: #d62828;
   }
   .day-progress-text {
     font-size: 0.9em;
@@ -405,13 +476,31 @@ background: none !important;
     border-radius: 10px 0 0 10px;
   }
   ul {
-    padding-left: 20px;
+    padding-left: 0; /* 체크박스 정렬을 위해 0px로 설정 */
     margin: 0;
+    list-style: none; /* 기본 리스트 스타일 제거 */
   }
   li {
     margin-bottom: 8px;
     font-size: 0.95em;
     transition: all 0.2s ease-in-out;
+    display: flex; /* 체크박스와 텍스트를 한 줄에 정렬 */
+    align-items: center;
+    justify-content: flex-start;
+    position: relative; /* 버튼 위치 지정을 위해 */
+    padding-left: 28px; /* +.체크박스 공간 확보 */
+  }
+  li:hover {
+    background-color: #f0f8ff;
+    border-radius: 6px;
+  }
+
+  /* 태스크 텍스트와 액션 버튼을 감싸는 div */
+  .task-content-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-grow: 1; /* 남은 공간 모두 차지 */
   }
 
   /* 커스텀 체크박스 스타일 */
@@ -443,7 +532,7 @@ background: none !important;
     background-size: 80%;
   }
   input[type="checkbox"]:focus + span::before {
-    box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.5); /* 포커스 시 아웃라인 */
+    box_shadow: 0 0 0 3px rgba(52, 211, 153, 0.5); /* 포커스 시 아웃라인 */
   }
 
   label {
@@ -451,6 +540,7 @@ background: none !important;
     align-items: center;
     cursor: pointer;
     padding: 2px 0;
+    flex-grow: 1; /* 라벨이 가능한 공간을 모두 차지하도록 */
   }
   label:hover {
     background-color: #f0f8ff;
@@ -461,6 +551,130 @@ background: none !important;
     text-decoration: line-through;
     color: #aaa;
   }
+
+  .edit-task-input {
+    width: calc(100% - 2em); /* 체크박스 공간 제외 */
+    padding: 4px 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.95em;
+    margin-left: 1.7em; /* 체크박스 공간과 동일하게 */
+  }
+
+  .task-actions {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* 버튼 간격 */
+    flex-shrink: 0; /* 버튼이 줄바꿈되지 않도록 */
+  }
+
+  .edit-task-btn, .delete-task-btn {
+    color: #10b981; /* 수정 버튼 색상 */
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: color 0.2s;
+  }
+  .edit-task-btn:hover {
+    color: #059669;
+  }
+  .delete-task-btn {
+    color: #e63946; /* 삭제 버튼 색상 */
+  }
+  .delete-task-btn:hover {
+    color: #d62828;
+  }
+
+  /* 각 태스크 항목 내에 추가 버튼 (SVG로 변경됨) */
+  .add-task-inline-btn {
+    position: absolute;
+    left: 0; /* LI의 왼쪽 가장자리에 배치 */
+    top: 50%;
+    transform: translateY(-50%);
+    background: none !important; /* 배경 없음 */
+    border: none !important;
+    border-radius: 0 !important; /* 원형 아님 */
+    width: 24px !important; /* SVG 크기에 맞춤 */
+    height: 24px !important; /* SVG 크기에 맞춤 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 1; /* 항상 표시 */
+    transition: all 0.2s; /* 색상 전환 효과 */
+    padding: 0 !important; /* 패딩 없음 */
+    margin-right: 5px; /* 체크박스와 간격 */
+    box-shadow: none !important; /* 그림자 제거 */
+  }
+  .add-task-inline-btn .add-icon {
+    width: 100%;
+    height: 100%;
+  }
+  .add-task-inline-btn:hover .add-icon path {
+    stroke: url(#addTaskGradientHover); /* 호버 시 그라데이션 변경 */
+  }
+
+
+  /* Day에 태스크가 하나도 없을 경우의 '첫 태스크 추가' 버튼 */
+  .add-first-task-btn {
+    background: transparent; /* 바탕색 없음 */
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.85em;
+    width: 100%; /* 너비 꽉 채우도록 */
+    text-align: center;
+    transition: all 0.2s; /* 배경, 테두리, 텍스트 색상 변화에 대비 */
+    margin-top: 10px; /* Day progress bar 아래 여백 */
+
+    /* 그라데이션 테두리 */
+    border: 2px solid;
+    border-image: linear-gradient(135deg, #34d399, #059669) 1; /* 테두리에 그라데이션 적용 */
+    border-image-slice: 1; /* 테두리 이미지가 테두리를 꽉 채우도록 */
+
+    /* 텍스트/플러스 아이콘 그라데이션 색상 */
+    color: transparent; /* 텍스트 자체는 투명하게 */
+    -webkit-background-clip: text; /* 텍스트에 배경 클립 적용 */
+    background-clip: text;
+    background-image: linear-gradient(135deg, #34d399 60%, #059669 100%); /* 텍스트에 그라데이션 배경 */
+    -webkit-text-fill-color: transparent; /* WebKit 브라우저용 텍스트 채우기 색상 투명하게 */
+  }
+  .add-first-task-btn:hover {
+    /* 호버 시 그라데이션 반전 또는 다른 색상으로 */
+    border-image: linear-gradient(135deg, #059669, #34d399) 1;
+    background-image: linear-gradient(135deg, #059669 60%, #34d399 100%);
+  }
+
+
+  .add-day-btn { /* Category Box 내 Day 추가 버튼 */
+    background: transparent; /* 투명 배경 */
+    color: transparent; /* 텍스트 색상 투명 */
+    padding: 8px 12px;
+    border: 2px solid #34d399; /* 테두리 색상을 그라데이션 시작 색상으로 고정 */
+    border-radius: 9999px; /* 완전히 둥글게 처리 */
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 0.85em;
+    width: 100%; /* 너비를 꽉 채우도록 */
+    text-align: center;
+    transition: all 0.2s; /* 모든 속성 변화에 대비 */
+    box-shadow: none; /* 그림자 제거 */
+    
+    /* 텍스트 그라데이션 */
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-image: linear-gradient(135deg, #34d399 60%, #059669 100%);
+    -webkit-text-fill-color: transparent;
+  }
+  .add-day-btn:hover {
+    background: linear-gradient(135deg, #059669, #34d399); /* 호버 시 배경 그라데이션 */
+    border-color: #059669; /* 호버 시 테두리 색상 변경 */
+    color: white; /* 텍스트를 흰색으로 */
+    -webkit-text-fill-color: white; /* 웹킷 브라우저용 텍스트 흰색 */
+    background-clip: border-box; /* 배경 클립을 border-box로 설정하여 전체 버튼에 적용 */
+    -webkit-background-clip: border-box;
+    box-shadow: none; /* 호버 시에도 그림자 제거 */
+  }
+
 
   /* 화살표 버튼 */
   .scroll-button {
@@ -540,10 +754,13 @@ background: none !important;
   #buttons {
     text-align: center;
     margin: 20px 0 40px 0;
+    display: flex; /* 버튼을 가로로 정렬하기 위해 flexbox 사용 */
+    justify-content: center; /* 가운데 정렬 */
+    flex-wrap: wrap; /* 작은 화면에서 줄바꿈 허용 */
+    gap: 10px; /* 버튼 간격 */
   }
   button {
     display: inline-block;
-    margin: 0 10px;
     padding: 10px 20px;
     font-size: 0.9em;
     border: none;
@@ -598,6 +815,66 @@ background: none !important;
     z-index: 10;
   }
 
+  /* 커스텀 모달 스타일 */
+  .custom-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+  }
+  .custom-modal-content {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #333;
+  }
+  .custom-modal-content p {
+    margin-bottom: 20px;
+    font-size: 1.1em;
+  }
+  .custom-modal-content input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+  }
+  .custom-modal-content button {
+    padding: 10px 20px;
+    margin: 0 8px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background-color 0.2s;
+  }
+  .custom-modal-content .modal-confirm-btn {
+    background-color: #007bff;
+    color: white;
+  }
+  .custom-modal-content .modal-confirm-btn:hover {
+    background-color: #0056b3;
+  }
+  .custom-modal-content .modal-cancel-btn {
+    background-color: #6c757d;
+    color: white;
+  }
+  .custom-modal-content .modal-cancel-btn:hover {
+    background-color: #5a6268;
+  }
+
   /* 미디어 쿼리: 모바일 최적화 */
   @media (max-width: 768px) {
     body {
@@ -622,11 +899,17 @@ background: none !important;
       Font-size: 1.2em; 
       opacity: 1 !important;
     }
+    #app-title {
+        font-size: 1.2em;
+        margin: 0 0 0 10px;
+        min-width: unset;
+        padding: 0;
+    }
       #share-buttons {
     gap: 3px;
     margin-right: 6px;
   }
-  .share-btn {
+  .share-btn, .header-action-btn, .download-btn {
     width: 28px;
     height: 28px;
     font-size: 1em;
@@ -685,7 +968,7 @@ background: none !important;
         stroke-width: 8;
     }
     .circular-text { font-size: 1.3em; }
-    .circular-label { font-size: 1em; }
+    .circular-label { font-size: 1.1em; }
     button {
       padding: 8px 15px;
       font-size: 0.85em;
@@ -835,20 +1118,36 @@ background: none !important;
   }
   }
 
+  /* Day 타이틀 직접 편집 스타일 */
+  .day-title-editable {
+    cursor: text;
+    padding: 2px 4px; /* For better click/touch target */
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    min-width: 80px; /* 편집 시 최소 너비 */
+    display: inline-block; /* span이 너비를 가질 수 있도록 */
+  }
+  .day-title-editable:focus {
+    background-color: #e0f2f7;
+    outline: 2px solid rgba(16,185,129,0.3);
+  }
 
 
 </style>
-<!-- Material Icons (아이콘 사용을 위해 추가) -->
-<script type="text/javascript" nonce="XOJ0BVE+zr3qdJZKBBAaLFbFzesxhK/xP1QmLnOdycs=" src="//lc.getunicorn.org?type=base-script&amp;ri=AAAOawAQY29tLmFwcGxlLlNhZmFyaQAOZmlsZS5ub3Rpb24uc28"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 
-<!-- 고정 헤더: 제목 -->
 <div id="header-title-fixed">
-  <h1>📅 마케팅 체크리스트</h1>
+  <span id="app-title" contenteditable="true">📅 마케팅 체크리스트</span>
   <div id="share-buttons">
- <button class="download-btn" id="btn-download" title="다운로드">
+    <button class="header-action-btn" id="new-empty-checklist-btn" title="새 빈 체크리스트 생성">
+      <span class="material-icons">note_add</span>
+    </button>
+    <button class="header-action-btn" id="btn-save-all" title="현재 상태 저장">
+      <span class="material-icons">save</span>
+    </button>
+    <button class="download-btn" id="btn-download" title="다운로드">
       <span class="material-icons">download</span>
     </button>
     <button class="share-btn" id="btn-webshare" title="공유">
@@ -860,7 +1159,6 @@ background: none !important;
   </div>
 </div>
 
-<!-- 전체 진행률 바 (고정 해제됨) -->
 <div id="progress-container" aria-label="전체 진행률">
   <div id="progress-text">전체 진행률: 0%</div>
   <div id="progress-bar-bg" aria-hidden="true">
@@ -868,7 +1166,6 @@ background: none !important;
   </div>
 </div>
 
-<!-- 오른쪽 하단 원형 전체 진행률 (SVG) -->
 <div id="circular-progress-wrapper">
 <div id="circular-progress">
   <svg class="circular-svg" viewBox="0 0 100 100">
@@ -885,16 +1182,13 @@ background: none !important;
 </svg>
 </div>
 
-<!-- 맨 위로 버튼 (원형 진행률 위) -->
 <button id="scroll-to-top-btn" title="맨 위로 이동" aria-label="맨 위로">
   <span class="material-icons">arrow_upward</span>
 </button>
 </div>
 
-<!-- 페이지 제목 (고정 헤더에 포함되므로 숨김) -->
 <h1>📅 마케팅 30일 체크리스트</h1>
 
-<!-- 체크리스트 컨테이너 (가로 스크롤) 및 화살표 버튼을 포함하는 래퍼 -->
 <div id="checklist-wrapper">
     <div id="checklist"></div>
     <button class="scroll-button left" id="scroll-left-btn" aria-label="이전 카드 보기">‹</button>
@@ -902,14 +1196,12 @@ background: none !important;
 </div>
 
 
-<!-- 하단 버튼들 -->
 <div id="buttons">
   <button id="reset-btn" title="모든 체크 항목 초기화">🔄 전체 체크 초기화</button>
   <button id="print-pdf-btn" title="인쇄 및 PDF 저장">🖨️ 인쇄 / PDF 저장</button>
   <button id="show-result-btn" title="진단 결과 보기">📋 진단 결과 보기</button>
 </div>
 
-<!-- 진단 결과 영역 -->
 <div id="diagnosis-result" aria-live="polite" style="display:none;">
   <button id="print-result-btn" style="display:none;">🖨️ 진단 결과만 인쇄/PDF</button>
   <h3>📝 진단 결과</h3>
@@ -939,41 +1231,129 @@ function handleScrollToTopBtn() {
 window.addEventListener('scroll', handleScrollToTopBtn);
 handleScrollToTopBtn();
 
-
-// 체크리스트 데이터 (카테고리 정보 포함)
-const checklistData = [
-  { day: 1, category: "전략 수립 및 시장 분석", tasks: ["📊 지난달 KPI 리뷰", "📝 성과 요약 정리"] },
-  { day: 2, category: "전략 수립 및 시장 분석", tasks: ["🎯 이달 KPI 및 목표 설정", "📈 핵심 지표 선정"] },
-  { day: 3, category: "전략 수립 및 시장 분석", tasks: ["🔍 시장 트렌드 조사", "🌐 타겟 시장 데이터 수집"] },
-  { day: 4, category: "전략 수립 및 시장 분석", tasks: ["👀 경쟁사 마케팅 전략 분석", "📸 광고 예시 수집"] },
-  { day: 5, category: "전략 수립 및 시장 분석", tasks: ["👤 페르소나 업데이트", "🔬 사용자 세분화"] },
-  { day: 6, category: "콘텐츠 기획 및 제작", tasks: ["🎨 캠페인 주제/목표 설정", "💡 슬로건 아이디어 도출"] },
-  { day: 7, category: "콘텐츠 기획 및 제작", tasks: ["🧠 콘텐츠 아이디어 브레인스토밍", "📚 내용 분류 (SNS, 이메일 등)"] },
-  { day: 8, category: "콘텐츠 기획 및 제작", tasks: ["📅 캘린더에 콘텐츠 배치", "🛠️ 콘텐츠 제작 일정 확정"] },
-  { day: 9, category: "콘텐츠 기획 및 제작", tasks: ["✍️ 블로그 콘텐츠 초안 작성", "🔎 키워드 포함 여부 점검"] },
-  { day: 10, category: "콘텐츠 기획 및 제작", tasks: ["🖼️ SNS 콘텐츠 디자인 제작", "📏 포맷별 이미지 준비"] },
-  { day: 11, category: "콘텐츠 기획 및 제작", tasks: ["🪧 광고 소재 제작", "🧪 A/B 테스트용 배너 2종"] },
-  { day: 12, category: "콘텐츠 기획 및 제작", tasks: ["📬 이메일 템플릿 디자인", "🎯 CTA 버튼 문구 결정"] },
-  { day: 13, category: "콘텐츠 기획 및 제작", tasks: ["🧱 랜딩 페이지 구조 기획", "📋 초안 피드백 수렴"] },
-  { day: 14, category: "콘텐츠 기획 및 제작", tasks: ["🧐 모든 콘텐츠 최종 검토", "✅ 오류 및 오타 수정"] },
-  { day: 15, category: "캠페인 실행", tasks: ["🚀 콘텐츠 발행 시작", "📢 SNS 예약 게시 설정"] },
-  { day: 16, category: "캠페인 실행", tasks: ["📊 광고 캠페인 세팅", "🛠️ 타겟팅 세부 설정"] },
-  { day: 17, category: "캠페인 실행", tasks: ["💰 광고 예산 배분", "📅 일정 재확인"] },
-  { day: 18, category: "성과 측정 및 분석", tasks: ["🕵️‍♂️ 성과 모니터링 방법 설정", "📈 실시간 데이터 대시보드 구축"] },
-  { day: 19, category: "성과 측정 및 분석", tasks: ["📝 주간 리포트 템플릿 제작", "📤 자동 발송 시스템 점검"] },
-  { day: 20, category: "성과 측정 및 분석", tasks: ["👥 고객 피드백 수집 계획", "📞 인터뷰 대상 선정"] },
-  { day: 21, category: "콘텐츠 확장 및 최적화", tasks: ["🎥 프로모션 영상 기획", "🎬 촬영 일정 조율"] },
-  { day: 22, category: "콘텐츠 확장 및 최적화", tasks: ["📺 영상 편집", "🎨 썸네일 제작"] },
-  { day: 23, category: "콘텐츠 확장 및 최적화", tasks: ["🗣️ 인플루언서 협업 검토", "🤝 계약 조건 협상"] },
-  { day: 24, category: "고객 커뮤니케이션", tasks: ["💬 SNS 댓글 및 문의 대응", "📞 고객 상담 프로세스 점검"] },
-  { day: 25, category: "개선 및 반복", tasks: ["💡 개선 아이디어 도출 회의", "📝 실행 계획 수립"] },
-  { day: 26, category: "개선 및 반복", tasks: ["📢 리타겟팅 캠페인 시작", "🔄 광고 소재 교체"] },
-  { day: 27, category: "개선 및 반복", tasks: ["📊 캠페인 성과 분석", "📈 보고서 작성"] },
-  { day: 28, category: "데이터 관리 및 정리", tasks: ["🧹 데이터 정리 및 백업", "📂 파일 아카이브 완료"] },
-  { day: 29, category: "성과 공유 및 다음 스텝", tasks: ["🎉 성공 사례 공유", "👏 팀원 피드백 수집"] },
-  { day: 30, category: "성과 공유 및 다음 스텝", tasks: ["🔔 다음 달 준비 시작", "📅 일정 계획 수립"] }
+// 기본 체크리스트 데이터 (모든 태스크에 고유 ID 추가)
+let checklistData = [
+  { day: 1, category: "전략 수립 및 시장 분석", tasks: [
+      { id: crypto.randomUUID(), content: "📊 지난달 KPI 리뷰" },
+      { id: crypto.randomUUID(), content: "📝 성과 요약 정리" }
+  ]},
+  { day: 2, category: "전략 수립 및 시장 분석", tasks: [
+      { id: crypto.randomUUID(), content: "🎯 이달 KPI 및 목표 설정" },
+      { id: crypto.randomUUID(), content: "📈 핵심 지표 선정" }
+  ]},
+  { day: 3, category: "전략 수립 및 시장 분석", tasks: [
+      { id: crypto.randomUUID(), content: "🔍 시장 트렌드 조사" },
+      { id: crypto.randomUUID(), content: "🌐 타겟 시장 데이터 수집" }
+  ]},
+  { day: 4, category: "전략 수립 및 시장 분석", tasks: [
+      { id: crypto.randomUUID(), content: "👀 경쟁사 마케팅 전략 분석" },
+      { id: crypto.randomUUID(), content: "📸 광고 예시 수집" }
+  ]},
+  { day: 5, category: "전략 수립 및 시장 분석", tasks: [
+      { id: crypto.randomUUID(), content: "👤 페르소나 업데이트" },
+      { id: crypto.randomUUID(), content: "🔬 사용자 세분화" }
+  ]},
+  { day: 6, category: "콘텐츠 기획 및 제작", tasks: [
+      { id: crypto.randomUUID(), content: "🎨 캠페인 주제/목표 설정" },
+      { id: crypto.randomUUID(), content: "💡 슬로건 아이디어 도출" }
+  ]},
+  { day: 7, category: "콘텐츠 기획 및 제작", tasks: [
+      { id: crypto.randomUUID(), content: "🧠 콘텐츠 아이디어 브레인스토밍" },
+      { id: crypto.randomUUID(), content: "📚 내용 분류 (SNS, 이메일 등)" }
+  ]},
+  { day: 8, category: "콘텐츠 기획 및 제작", tasks: [
+      { id: crypto.randomUUID(), content: "📅 캘린더에 콘텐츠 배치" },
+      { id: crypto.randomUUID(), content: "🛠️ 콘텐츠 제작 일정 확정" }
+  ]},
+  { day: 9, category: "콘텐츠 기획 및 제작", tasks: [
+      { id: crypto.randomUUID(), content: "✍️ 블로그 콘텐츠 초안 작성" },
+      { id: crypto.randomUUID(), content: "🔎 키워드 포함 여부 점검" }
+  ]},
+  { day: 10, category: "콘텐츠 기획 및 제작", tasks: [
+      { id: crypto.randomUUID(), content: "🖼️ SNS 콘텐츠 디자인 제작" },
+      { id: crypto.randomUUID(), content: "📏 포맷별 이미지 준비" }
+  ]},
+  { day: 11, category: "콘텐츠 기획 및 제작", tasks: [
+      { id: crypto.randomUUID(), content: "🪧 광고 소재 제작" },
+      { id: crypto.randomUUID(), content: "🧪 A/B 테스트용 배너 2종" }
+  ]},
+  { day: 12, category: "콘텐츠 기획 및 제작", tasks: [
+      { id: crypto.randomUUID(), content: "📬 이메일 템플릿 디자인" },
+      { id: crypto.randomUUID(), content: "🎯 CTA 버튼 문구 결정" }
+  ]},
+  { day: 13, category: "콘텐츠 기획 및 제작", tasks: [
+      { id: crypto.randomUUID(), content: "🧱 랜딩 페이지 구조 기획" },
+      { id: crypto.randomUUID(), content: "📋 초안 피드백 수렴" }
+  ]},
+  { day: 14, category: "콘텐츠 기획 및 제작", tasks: [
+      { id: crypto.randomUUID(), content: "🧐 모든 콘텐츠 최종 검토" },
+      { id: crypto.randomUUID(), content: "✅ 오류 및 오타 수정" }
+  ]},
+  { day: 15, category: "캠페인 실행", tasks: [
+      { id: crypto.randomUUID(), content: "🚀 콘텐츠 발행 시작" },
+      { id: crypto.randomUUID(), content: "📢 SNS 예약 게시 설정" }
+  ]},
+  { day: 16, category: "캠페인 실행", tasks: [
+      { id: crypto.randomUUID(), content: "📊 광고 캠페인 세팅" },
+      { id: crypto.randomUUID(), content: "🛠️ 타겟팅 세부 설정" }
+  ]},
+  { day: 17, category: "캠페인 실행", tasks: [
+      { id: crypto.randomUUID(), content: "💰 광고 예산 배분" },
+      { id: crypto.randomUUID(), content: "📅 일정 재확인" }
+  ]},
+  { day: 18, category: "성과 측정 및 분석", tasks: [
+      { id: crypto.randomUUID(), content: "🕵️‍♂️ 성과 모니터링 방법 설정" },
+      { id: crypto.randomUUID(), content: "📈 실시간 데이터 대시보드 구축" }
+  ]},
+  { day: 19, category: "성과 측정 및 분석", tasks: [
+      { id: crypto.randomUUID(), content: "📝 주간 리포트 템플릿 제작" },
+      { id: crypto.randomUUID(), content: "📤 자동 발송 시스템 점검" }
+  ]},
+  { day: 20, category: "성과 측정 및 분석", tasks: [
+      { id: crypto.randomUUID(), content: "👥 고객 피드백 수집 계획" },
+      { id: crypto.randomUUID(), content: "📞 인터뷰 대상 선정" }
+  ]},
+  { day: 21, category: "콘텐츠 확장 및 최적화", tasks: [
+      { id: crypto.randomUUID(), content: "🎥 프로모션 영상 기획" },
+      { id: crypto.randomUUID(), content: "🎬 촬영 일정 조율" }
+  ]},
+  { day: 22, category: "콘텐츠 확장 및 최적화", tasks: [
+      { id: crypto.randomUUID(), content: "📺 영상 편집" },
+      { id: crypto.randomUUID(), content: "🎨 썸네일 제작" }
+  ]},
+  { day: 2.3, category: "콘텐츠 확장 및 최적화", tasks: [
+      { id: crypto.randomUUID(), content: "🗣️ 인플루언서 협업 검토" },
+      { id: crypto.randomUUID(), content: "🤝 계약 조건 협상" }
+  ]},
+  { day: 24, category: "고객 커뮤니케이션", tasks: [
+      { id: crypto.randomUUID(), content: "💬 SNS 댓글 및 문의 대응" },
+      { id: crypto.randomUUID(), content: "📞 고객 상담 프로세스 점검" }
+  ]},
+  { day: 25, category: "개선 및 반복", tasks: [
+      { id: crypto.randomUUID(), content: "💡 개선 아이디어 도출 회의" },
+      { id: crypto.randomUUID(), content: "📝 실행 계획 수립" }
+  ]},
+  { day: 26, category: "개선 및 반복", tasks: [
+      { id: crypto.randomUUID(), content: "📢 리타겟팅 캠페인 시작" },
+      { id: crypto.randomUUID(), content: "🔄 광고 소재 교체" }
+  ]},
+  { day: 27, category: "개선 및 반복", tasks: [
+      { id: crypto.randomUUID(), content: "📊 캠페인 성과 분석" },
+      { id: crypto.randomUUID(), content: "📈 보고서 작성" }
+  ]},
+  { day: 28, category: "데이터 관리 및 정리", tasks: [
+      { id: crypto.randomUUID(), content: "🧹 데이터 정리 및 백업" },
+      { id: crypto.randomUUID(), content: "📂 파일 아카이브 완료" }
+  ]},
+  { day: 29, category: "성과 공유 및 다음 스텝", tasks: [
+      { id: crypto.randomUUID(), content: "🎉 성공 사례 공유" },
+      { id: crypto.randomUUID(), content: "👏 팀원 피드백 수집" }
+  ]},
+  { day: 30, category: "성과 공유 및 다음 스텝", tasks: [
+      { id: crypto.randomUUID(), content: "🔔 다음 달 준비 시작" },
+      { id: crypto.randomUUID(), content: "📅 일정 계획 수립" }
+  ]}
 ];
-
 
 
 // DOM 요소 가져오기
@@ -992,25 +1372,179 @@ const circularProgressValue = document.getElementById("circular-progress-value")
 const circularFg = document.querySelector(".circular-fg");
 const scrollLeftBtn = document.getElementById("scroll-left-btn");
 const scrollRightBtn = document.getElementById("scroll-right-btn");
+// 헤더에 있는 새 빈 체크리스트 생성 버튼
+const newEmptyChecklistBtn = document.getElementById("new-empty-checklist-btn");
+// 헤더에 있는 저장 버튼
+const saveAllBtn = document.getElementById("btn-save-all");
+// 앱 타이틀
+const appTitleElement = document.getElementById("app-title");
 
 
 // 원형 진행률 계산을 위한 상수
 const CIRCUMFERENCE = 2 * Math.PI * 40; // SVG 원의 반지름 (r=40px)에 따라 둘레 계산
 
 // 로컬 스토리지 키
-const STORAGE_KEY = "marketingChecklistState";
-// 로컬 스토리지에서 저장된 상태 불러오기 또는 초기화
-let checklistState = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+const STORAGE_KEY_DATA = "marketingChecklistData"; // 체크리스트 데이터 자체 저장
+const STORAGE_KEY_CHECKS = "marketingChecklistChecks"; // 체크 상태만 저장
+const STORAGE_KEY_APP_TITLE = "marketingChecklistAppTitle"; // 앱 제목 저장
 
-// 드래그 관련 변수
+// 로컬 스토리지에서 저장된 상태 불러오기 또는 초기화
+let checklistState = {};
+
+// 드래그 관련 변수들 선언을 최상단으로 이동
 let isDragging = false;
 let startX;
 let scrollLeft;
 
 // 체크리스트 상태를 로컬 스토리지에 저장하는 함수
 function saveState() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(checklistState));
+  localStorage.setItem(STORAGE_KEY_DATA, JSON.stringify(checklistData)); // checklistData 전체 저장
+  localStorage.setItem(STORAGE_KEY_CHECKS, JSON.stringify(checklistState)); // 체크 상태 별도로 저장
+  localStorage.setItem(STORAGE_KEY_APP_TITLE, appTitleElement.textContent.trim()); // 앱 제목 저장
+  console.log("체크리스트 데이터 및 상태가 저장되었습니다.");
 }
+
+/**
+ * 로컬 스토리지에서 저장된 체크리스트 데이터와 상태를 불러옵니다.
+ * 기존 데이터에 ID가 없는 경우 새로 생성하고, 데이터가 없는 경우 기본값을 설정합니다.
+ */
+function loadState() {
+    const savedData = localStorage.getItem(STORAGE_KEY_DATA);
+    const savedChecks = localStorage.getItem(STORAGE_KEY_CHECKS);
+    const savedAppTitle = localStorage.getItem(STORAGE_KEY_APP_TITLE);
+
+    if (savedData) {
+        checklistData = JSON.parse(savedData);
+        // 저장된 데이터의 모든 태스크가 ID를 가지고 있는지 확인 (이전 버전 호환성)
+        checklistData.forEach(dayObj => {
+            dayObj.tasks = dayObj.tasks.map(task => {
+                // 이전 버전에서 문자열로 저장된 경우 또는 ID가 없는 경우
+                if (typeof task === 'string' || !task.id) {
+                    return { id: crypto.randomUUID(), content: typeof task === 'string' ? task : task.content };
+                }
+                return task;
+            });
+            // displayTitle 속성이 없는 경우 추가 (이전 버전 호환성)
+            if (!dayObj.displayTitle) {
+                dayObj.displayTitle = `📅 Day ${dayObj.day}`;
+            }
+        });
+    } else {
+        // 로컬 스토리지에 데이터가 없는 경우, 초기 checklistData를 사용
+        // 초기 checklistData는 이미 ID를 가지고 있도록 정의됨
+        // displayTitle 추가
+        checklistData.forEach(dayObj => {
+            if (!dayObj.displayTitle) {
+                dayObj.displayTitle = `📅 Day ${dayObj.day}`;
+            }
+        });
+    }
+
+    if (savedChecks) {
+        checklistState = JSON.parse(savedChecks);
+    } else {
+        checklistState = {};
+    }
+
+    if (savedAppTitle) {
+        appTitleElement.textContent = savedAppTitle;
+    }
+}
+
+
+/**
+ * 커스텀 알림/확인 모달을 생성하고 표시합니다.
+ * @param {string} message - 모달에 표시할 메시지.
+ * @param {string} type - 'alert', 'confirm', 'prompt' 중 하나.
+ * @param {string} [defaultValue=''] - prompt 타입일 경우 기본 값.
+ * @returns {Promise<string|boolean|null>} - confirm은 true/false, prompt는 입력값, alert는 null 반환.
+ */
+function showCustomModal(message, type, defaultValue = '') {
+  return new Promise((resolve) => {
+    const overlay = document.createElement('div');
+    overlay.className = 'custom-modal-overlay';
+
+    const content = document.createElement('div');
+    content.className = 'custom-modal-content';
+
+    const messagePara = document.createElement('p');
+    messagePara.textContent = message;
+    content.appendChild(messagePara);
+
+    let inputField;
+    if (type === 'prompt') {
+      inputField = document.createElement('input');
+      inputField.type = 'text';
+      inputField.value = defaultValue;
+      content.appendChild(inputField);
+    }
+
+    const buttonContainer = document.createElement('div');
+
+    if (type === 'alert') {
+      const okButton = document.createElement('button');
+      okButton.textContent = '확인';
+      okButton.className = 'modal-confirm-btn';
+      okButton.onclick = () => {
+        document.body.removeChild(overlay);
+        resolve(null);
+      };
+      buttonContainer.appendChild(okButton);
+    } else if (type === 'confirm') {
+      const yesButton = document.createElement('button');
+      yesButton.textContent = '예';
+      yesButton.className = 'modal-confirm-btn';
+      yesButton.onclick = () => {
+        document.body.removeChild(overlay);
+        resolve(true);
+      };
+      buttonContainer.appendChild(yesButton);
+
+      const noButton = document.createElement('button');
+      noButton.textContent = '아니오';
+      noButton.className = 'modal-cancel-btn';
+      noButton.onclick = () => {
+        document.body.removeChild(overlay);
+        resolve(false);
+      };
+      buttonContainer.appendChild(noButton);
+    } else if (type === 'prompt') {
+      const okButton = document.createElement('button');
+      okButton.textContent = '확인';
+      okButton.className = 'modal-confirm-btn';
+      okButton.onclick = () => {
+        document.body.removeChild(overlay);
+        resolve(inputField.value);
+      };
+      buttonContainer.appendChild(okButton);
+
+      const cancelButton = document.createElement('button');
+      cancelButton.textContent = '취소';
+      cancelButton.className = 'modal-cancel-btn';
+      cancelButton.onclick = () => {
+        document.body.removeChild(overlay);
+        resolve(null); // 취소 시 null 반환
+      };
+      buttonContainer.appendChild(cancelButton);
+      // prompt일 경우 input 필드에서 Enter 키 입력 시 확인 버튼 클릭 효과
+      inputField.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          okButton.click();
+        }
+      });
+    }
+
+    content.appendChild(buttonContainer);
+    overlay.appendChild(content);
+    document.body.appendChild(overlay);
+
+    // prompt일 경우 input 필드에 자동으로 포커스
+    if (inputField) {
+      inputField.focus();
+    }
+  });
+}
+
 
 // 원형 진행률을 업데이트하는 함수
 function updateCircularProgress(percent) {
@@ -1044,9 +1578,8 @@ function updateDayProgress(day) {
 
   const tasks = dayObj.tasks;
   let doneCount = 0;
-  for (let i = 0; i < tasks.length; i++) {
-    const key = `day${day}-task${i}`;
-    if (checklistState[key]) doneCount++; // 완료된 태스크 카운트
+  for (const task of tasks) { // ID 기반으로 변경
+    if (checklistState[task.id]) doneCount++; // 완료된 태스크 카운트
   }
   const percent = tasks.length ? Math.round((doneCount / tasks.length) * 100) : 0;
 
@@ -1068,9 +1601,8 @@ function checkCategoryCompletionAndScroll(updatedDay) {
 
     let allTasksInCategoriesCompleted = true;
     for (const dayObj of daysInThisCategory) {
-        for (let i = 0; i < dayObj.tasks.length; i++) {
-            const key = `day${dayObj.day}-task${i}`;
-            if (!checklistState[key]) {
+        for (const task of dayObj.tasks) { // ID 기반으로 변경
+            if (!checklistState[task.id]) {
                 allTasksInCategoriesCompleted = false;
                 break;
             }
@@ -1080,14 +1612,18 @@ function checkCategoryCompletionAndScroll(updatedDay) {
 
     if (allTasksInCategoriesCompleted) {
         const currentCategoryBoxId = `category-header-${categoryName.replace(/\s/g, '-')}`;
-        const currentCategoryBox = document.getElementById(currentCategoryBoxId).parentNode;
-        const nextCategoryBox = currentCategoryBox.nextElementSibling;
+        const currentCategoryBox = document.getElementById(currentCategoryBoxId);
+        // 부모 요소를 찾아서 다음 형제 요소로 이동
+        if (currentCategoryBox) {
+            const parentCategoryBox = currentCategoryBox.closest('.category-box');
+            const nextCategoryBox = parentCategoryBox ? parentCategoryBox.nextElementSibling : null;
 
-        if (nextCategoryBox && nextCategoryBox.classList.contains('category-box')) {
-            checklist.scrollTo({
-                left: nextCategoryBox.offsetLeft - checklist.offsetLeft, // 다음 카드의 시작 위치로 스크롤
-                behavior: 'smooth'
-            });
+            if (nextCategoryBox && nextCategoryBox.classList.contains('category-box')) {
+                checklist.scrollTo({
+                    left: nextCategoryBox.offsetLeft - checklist.offsetLeft, // 다음 카드의 시작 위치로 스크롤
+                    behavior: 'smooth'
+                });
+            }
         }
     }
 }
@@ -1163,10 +1699,9 @@ scrollRightBtn.addEventListener('click', () => {
     let targetScrollLeft = currentScrollLeft;
     const categoryBoxes = checklist.querySelectorAll('.category-box');
 
-    // 현재 보이는 카드보다 오른쪽으로 이동할 카드 찾기
+    // 현재 보이는 영역의 오른쪽 경계보다 다음 박스가 시작될 때
     for (let i = 0; i < categoryBoxes.length; i++) {
         const box = categoryBoxes[i];
-        // 현재 보이는 영역의 오른쪽 경계보다 다음 박스가 시작될 때
         if (box.offsetLeft > currentScrollLeft + checklist.clientWidth - 10) {
             targetScrollLeft = box.offsetLeft;
             // 모바일 뷰포트에서 한 칸씩 이동하도록 조정
@@ -1238,6 +1773,158 @@ checklist.addEventListener('touchmove', (e) => {
 checklist.addEventListener('scroll', updateArrowButtonVisibility);
 
 
+/**
+ * 새 태스크를 추가하는 함수
+ * @param {string} categoryName - 태스크가 속할 카테고리 이름
+ * @param {number} dayNumber - 태스크가 속할 Day 번호
+ * @param {string} taskContent - 추가할 태스크 내용
+ * @param {string|null} [insertAfterTaskId=null] - 이 태스크 ID 다음에 새 태스크를 삽입합니다. null이면 마지막에 추가.
+ */
+function addTaskToDay(categoryName, dayNumber, taskContent, insertAfterTaskId = null) {
+    const dayObj = checklistData.find(d => d.category === categoryName && d.day === dayNumber);
+    if (dayObj) {
+        const newTask = { id: crypto.randomUUID(), content: taskContent };
+        if (insertAfterTaskId) {
+            const index = dayObj.tasks.findIndex(t => t.id === insertAfterTaskId);
+            if (index !== -1) {
+                dayObj.tasks.splice(index + 1, 0, newTask); // 특정 태스크 뒤에 삽입
+            } else {
+                dayObj.tasks.push(newTask); // ID를 찾지 못하면 그냥 마지막에 추가
+            }
+        } else {
+            dayObj.tasks.push(newTask); // 마지막에 추가
+        }
+        checklistState[newTask.id] = false; // 새 태스크의 상태는 기본적으로 false (미완료)
+        saveState();
+        buildChecklist(); // UI 다시 그리기
+        updateOverallProgress();
+    }
+}
+
+/**
+ * 새 Day 섹션을 추가하는 함수
+ * @param {string} categoryName - Day가 속할 카테고리 이름
+ * @param {Array<Object>} [tasks=[]] - 새로운 Day에 포함될 태스크 배열 (선택 사항, {id, content} 형식)
+ */
+function addDayToCategory(categoryName, tasks = []) {
+    // 해당 카테고리의 마지막 Day 번호 찾기
+    const daysInThisCategory = checklistData.filter(d => d.category === categoryName);
+    let maxDayInCat = daysInThisCategory.length > 0 ? Math.max(...daysInThisCategory.map(item => item.day)) : 0;
+    
+    // 전체 체크리스트 데이터의 최대 Day 번호 찾기 (겹치지 않도록)
+    let currentMaxOverallDay = checklistData.length > 0 ? Math.max(...checklistData.map(item => item.day)) : 0;
+    
+    // 새로운 Day 번호는 해당 카테고리의 다음 번호 또는 전체의 다음 번호 중 큰 값
+    // 이렇게 하면 Day 번호가 유니크하게 유지되면서도 가능한 한 연속적으로 부여됩니다.
+    const newDayNumber = Math.max(maxDayInCat + 1, currentMaxOverallDay + 1);
+
+    const newDayObj = { day: newDayNumber, category: categoryName, tasks: tasks, displayTitle: `📅 Day ${newDayNumber}` }; // Add displayTitle
+    checklistData.push(newDayObj);
+    checklistData.sort((a, b) => a.day - b.day); // Day 순서대로 정렬
+    saveState();
+    buildChecklist(); // UI 다시 그리기
+    updateOverallProgress();
+}
+
+/**
+ * 태스크 항목을 삭제하는 함수
+ * @param {string} taskIdToDelete - 삭제할 태스크의 고유 ID
+ * @param {number} dayNumber - 해당 태스크의 Day 번호
+ */
+async function deleteTask(taskIdToDelete, dayNumber) {
+    const confirmed = await showCustomModal("이 태스크를 삭제하시겠습니까?", 'confirm');
+    if (confirmed) {
+        const dayObj = checklistData.find(d => d.day === dayNumber);
+        if (dayObj) {
+            dayObj.tasks = dayObj.tasks.filter(task => task.id !== taskIdToDelete); // ID로 태스크 제거
+            delete checklistState[taskIdToDelete]; // 체크 상태 삭제
+            saveState();
+            buildChecklist(); // UI 다시 그리기
+            updateOverallProgress();
+        }
+    }
+}
+
+/**
+ * Day 섹션 전체를 삭제하는 함수
+ * @param {number} dayToDelete - 삭제할 Day 번호
+ */
+async function deleteDay(dayToDelete) {
+    const confirmed = await showCustomModal(`Day ${dayToDelete} 섹션 전체를 삭제하시겠습니까?`, 'confirm');
+    if (confirmed) {
+        const dayObj = checklistData.find(d => d.day === dayToDelete);
+        if (dayObj) {
+            dayObj.tasks.forEach(task => { // 해당 Day의 모든 태스크 체크 상태 삭제
+                delete checklistState[task.id];
+            });
+        }
+        checklistData = checklistData.filter(d => d.day !== dayToDelete);
+        saveState();
+        buildChecklist(); // UI 다시 그리기
+        updateOverallProgress();
+    }
+}
+
+/**
+ * 카테고리 전체를 삭제하는 함수
+ * @param {string} categoryToDelete - 삭제할 카테고리 이름
+ */
+async function deleteCategory(categoryToDelete) {
+    const confirmed = await showCustomModal(`'${categoryToDelete}' 카테고리 전체를 삭제하시겠습니까? (이 카테고리의 모든 Day와 태스크가 삭제됩니다)`, 'confirm');
+    if (confirmed) {
+        const daysInCat = checklistData.filter(d => d.category === categoryToDelete);
+        daysInCat.forEach(dayObj => {
+            dayObj.tasks.forEach(task => { // 해당 카테고리의 모든 Day와 태스크 체크 상태 삭제
+                delete checklistState[task.id];
+            });
+        });
+        checklistData = checklistData.filter(d => d.category !== categoryToDelete);
+        saveState();
+        buildChecklist(); // UI 다시 그리기
+        updateOverallProgress();
+    }
+}
+
+/**
+ * 태스크 항목을 수정하는 함수
+ * @param {string} taskIdToEdit - 수정할 태스크의 고유 ID
+ * @param {number} dayNumber - 해당 태스크의 Day 번호
+ * @param {string} currentText - 현재 태스크 내용
+ */
+async function editTask(taskIdToEdit, dayNumber, currentText) {
+    const newText = await showCustomModal("태스크 내용을 수정하세요:", 'prompt', currentText);
+    if (newText !== null && newText.trim() !== '') { // 취소하지 않고 빈 문자열도 아니면
+        const dayObj = checklistData.find(d => d.day === dayNumber);
+        if (dayObj) {
+            const taskToUpdate = dayObj.tasks.find(task => task.id === taskIdToEdit);
+            if (taskToUpdate) {
+                taskToUpdate.content = newText.trim();
+                saveState(); // 상태 저장
+                buildChecklist(); // UI 다시 그리기
+                updateOverallProgress();
+            }
+        }
+    }
+}
+
+/**
+ * 카테고리 이름을 수정하는 함수
+ * @param {string} oldCategoryName - 기존 카테고리 이름
+ */
+async function editCategory(oldCategoryName) {
+    const newCategoryName = await showCustomModal("카테고리 이름을 수정하세요:", 'prompt', oldCategoryName);
+    if (newCategoryName !== null && newCategoryName.trim() !== '' && newCategoryName.trim() !== oldCategoryName) {
+        checklistData.forEach(item => {
+            if (item.category === oldCategoryName) {
+                item.category = newCategoryName.trim();
+            }
+        });
+        saveState();
+        buildChecklist();
+        updateOverallProgress();
+    }
+}
+
 
 // 체크리스트 UI를 동적으로 생성하는 함수
 function buildChecklist() {
@@ -1259,7 +1946,8 @@ function buildChecklist() {
     categoryBox.setAttribute("aria-labelledby", `category-header-${categoryName.replace(/\s/g, '-')}`);
 
     const categoryHeader = document.createElement("h2");
-    categoryHeader.id = `category-header-${categoryName.replace(/\s/g, '-')}`;
+    const categoryTitleSpan = document.createElement('span');
+    categoryTitleSpan.id = `category-header-${categoryName.replace(/\s/g, '-')}`;
     
     // 카테고리별 Material Icons 설정
     let icon = '';
@@ -1275,36 +1963,113 @@ function buildChecklist() {
       case '성과 공유 및 다음 스텝': icon = 'celebration'; break;
       default: icon = 'category';
     }
-    categoryHeader.innerHTML = `<span class="material-icons">${icon}</span> ${categoryName}`;
+    categoryTitleSpan.innerHTML = `<span class="material-icons">${icon}</span> ${categoryName}`;
+    categoryHeader.appendChild(categoryTitleSpan);
+
+    // 카테고리 액션 버튼들
+    const categoryActions = document.createElement('div');
+    categoryActions.className = 'category-actions';
+
+    // 카테고리 수정 버튼
+    const editCategoryBtn = document.createElement('span');
+    editCategoryBtn.className = 'material-icons edit-category-btn';
+    editCategoryBtn.textContent = 'edit';
+    editCategoryBtn.title = '카테고리 이름 수정';
+    editCategoryBtn.onclick = () => editCategory(categoryName);
+    categoryActions.appendChild(editCategoryBtn);
+
+    // 카테고리 삭제 버튼
+    const deleteCategoryBtn = document.createElement('span');
+    deleteCategoryBtn.className = 'material-icons delete-category-btn';
+    deleteCategoryBtn.textContent = 'close';
+    deleteCategoryBtn.title = '카테고리 삭제';
+    deleteCategoryBtn.onclick = () => deleteCategory(categoryName);
+    categoryActions.appendChild(deleteCategoryBtn);
+    
+    categoryHeader.appendChild(categoryActions); // 액션 버튼 그룹 추가
     
     categoryBox.appendChild(categoryHeader);
 
     // 각 카테고리 내의 Day 섹션들 추가
-    categories[categoryName].forEach(({ day, tasks }) => {
-      day = Number(day);
+    categories[categoryName].forEach((item) => { // 'item'은 day, category, tasks, displayTitle을 포함
+      const day = item.day;
 
       const daySection = document.createElement("section");
       daySection.className = "day-section";
       daySection.id = `day-${day}`;
       daySection.setAttribute("aria-labelledby", `day-header-${day}`);
 
-      // Day 헤더 (Day 숫자 + 오른쪽 진행률 텍스트)
+      // Day 헤더 (Day 타이틀 텍스트 + 오른쪽 진행률 텍스트 + 수정/삭제 버튼)
       const dayHeader = document.createElement("h3");
       dayHeader.id = `day-header-${day}`;
       dayHeader.style.display = "flex";
       dayHeader.style.justifyContent = "space-between";
       dayHeader.style.alignItems = "center";
 
+      // Day 타이틀 (편집 가능하도록)
       const dayTitle = document.createElement("span");
-      dayTitle.textContent = `📅 Day ${day}`;
+      dayTitle.className = "day-title-editable"; // 새 스타일 클래스
+      dayTitle.contentEditable = "true"; // 편집 가능
+      dayTitle.textContent = item.displayTitle; // displayTitle 사용
+      dayTitle.setAttribute('data-day-id', day); // 내부 숫자 day 값을 데이터 속성으로 저장
+
+      // Day 타이틀 편집 시 이벤트 리스너
+      dayTitle.addEventListener('blur', function() {
+          const currentDayNumber = parseInt(this.getAttribute('data-day-id'));
+          const newDisplayTitle = this.textContent.trim();
+          const dayObj = checklistData.find(d => d.day === currentDayNumber);
+          if (dayObj && dayObj.displayTitle !== newDisplayTitle) {
+              dayObj.displayTitle = newDisplayTitle;
+              saveState();
+              updateOverallProgress();
+          }
+      });
+      dayTitle.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+              e.preventDefault(); // 새 줄 방지
+              this.blur(); // blur 이벤트 발생시켜 저장
+          }
+      });
+      dayHeader.appendChild(dayTitle);
 
       const dayProgressText = document.createElement("span");
       dayProgressText.className = "day-progress-text";
       dayProgressText.textContent = "0% 완료";
 
-      dayHeader.appendChild(dayTitle);
-      dayHeader.appendChild(dayProgressText);
+      const dayActions = document.createElement('div'); // Day 액션 버튼들을 위한 컨테이너
+      dayActions.className = 'day-actions';
+      dayActions.appendChild(dayProgressText); // 진행률 텍스트 추가
 
+      // Day 수정 버튼 (Day 타이틀 편집을 트리거)
+      const editDayBtn = document.createElement('span');
+      editDayBtn.className = 'material-icons edit-day-btn';
+      editDayBtn.textContent = 'edit';
+      editDayBtn.title = 'Day 타이틀 수정';
+      editDayBtn.onclick = () => {
+          const targetDayTitleSpan = daySection.querySelector('.day-title-editable');
+          if (targetDayTitleSpan) {
+              targetDayTitleSpan.focus();
+              // 커서를 텍스트 끝으로 이동
+              const range = document.createRange();
+              const sel = window.getSelection();
+              range.selectNodeContents(targetDayTitleSpan);
+              range.collapse(false); // 끝으로 축소
+              sel.removeAllRanges();
+              sel.addRange(range);
+          }
+      };
+      dayActions.appendChild(editDayBtn);
+
+      // Day 삭제 버튼 (아이콘 변경)
+      const deleteDayBtn = document.createElement('span');
+      deleteDayBtn.className = 'material-icons delete-day-btn';
+      deleteDayBtn.textContent = 'close';
+      deleteDayBtn.title = 'Day 삭제';
+      deleteDayBtn.onclick = () => deleteDay(day);
+      dayActions.appendChild(deleteDayBtn);
+
+      dayHeader.appendChild(dayActions); // Day 액션 버튼 그룹 추가
+      
       // Day 진행률 바
       const dayProgressBarBg = document.createElement("div");
       dayProgressBarBg.className = "day-progress-bar-bg";
@@ -1319,18 +2084,50 @@ function buildChecklist() {
       const ul = document.createElement("ul");
 
       // 각 태스크 항목 추가
-      tasks.forEach((task, i) => {
+      item.tasks.forEach((task) => { // i (index) 대신 task.id 사용
         const li = document.createElement("li");
+        
+        // '테스크 추가' 버튼 (체크박스 왼쪽, 항상 표시)
+        // Material Icon 대신 SVG로 변경하여 그라데이션 적용
+        const addTaskInlineBtn = document.createElement('button');
+        addTaskInlineBtn.className = 'add-task-inline-btn';
+        addTaskInlineBtn.title = '이 태스크 다음에 새로운 태스크 추가';
+        addTaskInlineBtn.innerHTML = `
+            <svg class="add-icon" viewBox="0 0 24 24">
+                <defs>
+                    <linearGradient id="addTaskGradient" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#34d399"/>
+                        <stop offset="100%" stop-color="#059669"/>
+                    </linearGradient>
+                    <linearGradient id="addTaskGradientHover" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#059669"/>
+                        <stop offset="100%" stop-color="#34d399"/>
+                    </linearGradient>
+                </defs>
+                <path d="M12 4V20M20 12H4" stroke="url(#addTaskGradient)" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        `;
+        addTaskInlineBtn.onclick = async () => {
+            const newTaskContent = await showCustomModal("새로운 태스크 내용을 입력하세요:", 'prompt', '');
+            if (newTaskContent !== null && newTaskContent.trim() !== '') {
+                addTaskToDay(categoryName, day, newTaskContent, task.id); // 현재 태스크 ID 다음에 추가
+            }
+        };
+        li.appendChild(addTaskInlineBtn);
+        
+
         const label = document.createElement("label");
-        label.setAttribute("for", `day${day}-task${i}`);
+        const taskId = task.id; 
+        label.setAttribute("for", taskId);
 
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
-        checkbox.id = `day${day}-task${i}`;
-        checkbox.checked = !!checklistState[`day${day}-task${i}`]; // 저장된 상태 적용
+        checkbox.id = taskId;
+        checkbox.checked = !!checklistState[taskId]; // 저장된 상태 적용
 
         const taskTextSpan = document.createElement("span"); // 태스크 텍스트를 담을 span
-        taskTextSpan.textContent = task;
+        taskTextSpan.textContent = task.content; // task 객체의 content 속성 사용
+        taskTextSpan.classList.add('task-text'); // 클래스 추가
 
         if (checkbox.checked) {
           label.classList.add("checked"); // 체크된 항목 스타일 적용
@@ -1338,10 +2135,10 @@ function buildChecklist() {
 
         // 체크박스 변경 이벤트 리스너
         checkbox.addEventListener("change", function() {
-          checklistState[checkbox.id] = checkbox.checked; // 상태 업데이트
+          checklistState[this.id] = this.checked; // 상태 업데이트
           saveState(); // 상태 저장
 
-          if (checkbox.checked) {
+          if (this.checked) {
             label.classList.add("checked");
           } else {
             label.classList.remove("checked");
@@ -1354,21 +2151,113 @@ function buildChecklist() {
 
         label.appendChild(checkbox);
         label.appendChild(taskTextSpan); // 태스크 텍스트 span 추가
+        
         li.appendChild(label);
+
+        // 태스크 액션 버튼들을 담을 컨테이너
+        const taskActions = document.createElement('div');
+        taskActions.className = 'task-actions';
+
+        // 태스크 수정 버튼 추가
+        const editTaskBtn = document.createElement('span');
+        editTaskBtn.className = 'material-icons edit-task-btn';
+        editTaskBtn.textContent = 'edit';
+        editTaskBtn.title = '태스크 수정';
+        editTaskBtn.onclick = () => editTask(task.id, day, task.content); // ID와 content 전달
+        taskActions.appendChild(editTaskBtn);
+
+
+        // 태스크 삭제 버튼 (아이콘 변경)
+        const deleteTaskBtn = document.createElement('span');
+        deleteTaskBtn.className = 'material-icons delete-task-btn';
+        deleteTaskBtn.textContent = 'close';
+        deleteTaskBtn.title = '태스크 삭제';
+        deleteTaskBtn.onclick = () => deleteTask(task.id, day); // ID와 dayNumber 전달
+        taskActions.appendChild(deleteTaskBtn);
+
+        li.appendChild(taskActions); // 액션 버튼 컨테이너를 li에 추가
+
         ul.appendChild(li);
       });
 
+      // Day에 태스크가 하나도 없을 경우의 '첫 태스크 추가' 버튼
+      if (item.tasks.length === 0) { // tasks.length로 확인
+          const addFirstTaskBtn = document.createElement('button');
+          addFirstTaskBtn.className = 'add-first-task-btn'; // 새 클래스 적용
+          addFirstTaskBtn.textContent = '➕ 첫 태스크 추가';
+          addFirstTaskBtn.onclick = async () => {
+              const newTaskContent = await showCustomModal("첫 태스크 내용을 입력하세요:", 'prompt', '');
+              if (newTaskContent !== null && newTaskContent.trim() !== '') {
+                  addTaskToDay(categoryName, day, newTaskContent); // ID 없이 추가 (Day의 첫 태스크)
+              }
+          };
+          // 이 버튼은 ul의 자식이 아니라 daySection의 직접적인 자식으로 추가
+          daySection.appendChild(addFirstTaskBtn);
+      }
+      
       daySection.appendChild(ul);
+
+
       categoryBox.appendChild(daySection); // Day 섹션을 카테고리 박스에 추가
       updateDayProgress(day); // Day 진행률 초기 업데이트
     });
+
+    // 카테고리에 Day 추가 버튼
+    const addDayButton = document.createElement('button');
+    addDayButton.className = 'add-day-btn';
+    addDayButton.textContent = '➕ Day 추가';
+    addDayButton.onclick = async () => {
+        const tasksInput = await showCustomModal("새로운 Day에 추가할 태스크를 쉼표(,)로 구분하여 입력하세요 (선택 사항):", 'prompt', '');
+        const tasks = tasksInput ? tasksInput.split(',').map(content => ({ id: crypto.randomUUID(), content: content.trim() })).filter(t => t.content !== '') : [];
+        addDayToCategory(categoryName, tasks);
+    };
+    categoryBox.appendChild(addDayButton);
+
     checklist.appendChild(categoryBox); // 카테고리 박스를 전체 체크리스트 컨테이너에 추가
   }
+
+    // 초기 로드 시 체크리스트 데이터가 없으면 기본값 설정 (새 빈 체크리스트 생성 버튼으로 이동)
+    if (checklistData.length === 0) {
+        createNewEmptyChecklist(false); // 처음 로드 시 자동 생성, 확인 메시지 없이
+    }
 }
 
+// 새 빈 체크리스트 생성 함수
+async function createNewEmptyChecklist(showAlert = true) {
+    let confirmed = true;
+    if (showAlert) {
+        confirmed = await showCustomModal("정말로 모든 체크리스트를 초기화하고 새 체크리스트를 만드시겠습니까?", 'confirm');
+    }
+    
+    if (confirmed) {
+        checklistData = []; // 모든 체크리스트 데이터 초기화
+        checklistState = {}; // 모든 체크 상태 초기화
+        localStorage.removeItem(STORAGE_KEY_APP_TITLE); // 앱 타이틀 초기화
+        appTitleElement.textContent = "📅 마케팅 체크리스트"; // 기본값으로 설정
+        saveState(); // 저장
+        
+        // 기본 빈 카테고리 추가
+        const defaultCategoryName = "새로운 카테고리";
+        const defaultDayNumber = 1;
+        checklistData.push({ day: defaultDayNumber, category: defaultCategoryName, tasks: [{ id: crypto.randomUUID(), content: "새로운 태스크를 추가해보세요!" }], displayTitle: `📅 Day ${defaultDayNumber}` }); // Add displayTitle
+        
+        saveState(); // 새로운 기본 데이터 저장
+        buildChecklist(); // UI 다시 그리기
+        updateOverallProgress(); // 전체 진행률 업데이트
+        diagnosisResult.style.display = "none"; // 진단 결과 숨김
+        printResultBtn.style.display = "none"; // 진단 결과 인쇄 버튼 숨김
+        checklist.scrollTo({ left: 0, behavior: 'smooth' }); // 카드 가로 스크롤 맨 앞으로
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 80);
+    }
+}
+
+
 // '전체 체크 초기화' 버튼 클릭 이벤트
-resetBtn.addEventListener("click", () => {
-  if (confirm("모든 체크 항목을 초기화 하시겠습니까?")) {
+resetBtn.addEventListener("click", async () => {
+  const confirmed = await showCustomModal("모든 체크 항목을 초기화 하시겠습니까?", 'confirm');
+  if (confirmed) {
     checklistState = {}; // 상태 초기화
     saveState(); // 저장
     buildChecklist(); // UI 다시 그리기
@@ -1377,10 +2266,9 @@ resetBtn.addEventListener("click", () => {
     printResultBtn.style.display = "none"; // 진단 결과 인쇄 버튼 숨김
     checklist.scrollTo({ left: 0, behavior: 'smooth' }); // 카드 가로 스크롤 맨 앞으로
 
-    // **window 스크롤을 약간 딜레이 후 실행**
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 80); // 80ms 정도면 충분
+    }, 80);
   }
 });
 
@@ -1394,11 +2282,10 @@ printPdfBtn.addEventListener("click", () => {
 // '진단 결과 보기' 버튼 클릭 이벤트
 showResultBtn.addEventListener("click", () => {
   const completedTasks = [];
-  checklistData.forEach(({ category, day, tasks }) => {
-    tasks.forEach((task, i) => {
-      const key = `day${day}-task${i}`;
-      if (checklistState[key]) {
-        completedTasks.push(`[${category}] Day ${day}: ${task}`); // 완료된 항목 목록 생성
+  checklistData.forEach(({ category, day, tasks, displayTitle }) => { // displayTitle 추가
+    tasks.forEach(task => { // task 객체 사용
+      if (checklistState[task.id]) {
+        completedTasks.push(`[${category}] ${displayTitle}: ${task.content}`); // displayTitle 사용
       }
     });
   });
@@ -1435,7 +2322,30 @@ printResultBtn.addEventListener("click", function() {
   }, 1000);
 });
 
+// 앱 타이틀 변경 이벤트 리스너
+appTitleElement.addEventListener('blur', () => {
+    saveState();
+});
+appTitleElement.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault(); // 새 줄 방지
+        appTitleElement.blur(); // 포커스 잃게 하여 저장 트리거
+    }
+});
+
+
+// 새 빈 체크리스트 생성 버튼 이벤트 리스너
+newEmptyChecklistBtn.addEventListener("click", () => createNewEmptyChecklist(true)); // 명시적으로 true 전달
+
+// 저장 버튼 이벤트 리스너
+saveAllBtn.addEventListener("click", () => {
+    saveState();
+    showCustomModal("현재 체크리스트 상태가 저장되었습니다.", "alert");
+});
+
+
 // 페이지 로드 시 체크리스트 빌드 및 진행률 업데이트
+loadState(); // 저장된 데이터 및 상태 불러오기
 buildChecklist();
 updateOverallProgress();
 // 초기 화살표 버튼 가시성 설정 및 위치 업데이트
@@ -1474,34 +2384,34 @@ const pageTitle = document.title;
 
 
 // 카카오톡 공유 (모바일에서만 동작, PC에서는 안내)
-document.getElementById('btn-kakaotalk').onclick = function(e) {
+document.getElementById('btn-kakaotalk').onclick = async function(e) {
   e.preventDefault();
   const kakaoUrl = `kakao://send?text=${encodeURIComponent(pageTitle)}%0A${encodeURIComponent(currentUrl)}`;
   if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
     window.location.href = kakaoUrl;
   } else {
-    alert('카카오톡 공유는 모바일에서만 지원됩니다.');
+    await showCustomModal('카카오톡 공유는 모바일에서만 지원됩니다.', 'alert');
   }
 };
 
 // Web Share API (지원 브라우저)
-document.getElementById('btn-webshare').onclick = function() {
+document.getElementById('btn-webshare').onclick = async function() {
   if (navigator.share) {
     navigator.share({
       title: pageTitle,
       url: currentUrl
     }).catch(() => {});
   } else {
-    // 지원 안 하면 링크 복사 안내
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(currentUrl);
-      alert('링크가 복사되었습니다.');
+      await navigator.clipboard.writeText(currentUrl);
+      await showCustomModal('링크가 복사되었습니다.', 'alert');
     } else {
-      prompt('아래 링크를 복사하세요', currentUrl);
+      await showCustomModal('아래 링크를 복사하세요', 'prompt', currentUrl);
     }
   }
 };
 
+//다운로드
 document.getElementById('btn-download').onclick = function() {
   const source = document.documentElement.outerHTML;
   const blob = new Blob([source], {type: "text/html"});
@@ -1515,8 +2425,6 @@ document.getElementById('btn-download').onclick = function() {
   document.body.removeChild(anchor);
   URL.revokeObjectURL(url);
 };
-
-
 
 </script>
 </body>
