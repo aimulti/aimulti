@@ -1,0 +1,454 @@
+xml
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>기변-온: 오늘의 기분은 멋지게 변할거예요</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #111;
+            text-align: center;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            position: relative;
+        }
+        .typing-container {
+            margin: 30px auto;
+            font-size: 24px;
+            color: #fff;
+        }
+        .typing-text {
+            overflow: hidden;
+            border-right: 2px solid #fff;
+            white-space: nowrap;
+            animation: blink 0.75s step-end infinite;
+        }
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: #fff; }
+        }
+        .magic-text {
+            position: relative;
+            z-index: 10;
+            font-family: 'Arial', sans-serif;
+            font-size: 80px;
+            font-weight: bold;
+            color: #f8d56b;
+            background: linear-gradient(135deg, #f8d56b, #e8c54f, #ffdb70, #f8d56b);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color transparent;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+            margin: 40px auto;
+            animation: shine 3s ease-in-out infinite, zoom 4s ease-in-out infinite, glow 3s ease-in-out infinite;
+        }
+        @keyframes shine {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        @keyframes zoom {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.7); }
+            50% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.9), 0 0 30px rgba(255, 215, 0, 0.7); }
+        }
+        .firework {
+            position: fixed;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 0 10px 5px rgba(255,215,0,0.8);
+            animation: explode 2s ease-out forwards;
+            z-index: 1;
+        }
+        .spark {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 0 5px 2px currentColor;
+            animation: sparkMove 1.5s ease-out forwards;
+            z-index: 1;
+        }
+        @keyframes explode {
+            0% { transform: translate(var(--x), var(--y)) scale(0); opacity: 1; }
+            100% { transform: translate(var(--x), var(--y)) scale(20); opacity: 0; }
+        }
+        @keyframes sparkMove {
+            0% { transform: translate(var(--sx), var(--sy)) scale(0.5); opacity: 1; }
+            100% { transform: translate(var(--ex), var(--ey)) scale(0); opacity: 0; }
+        }
+        .wrapper {
+            position: relative;
+            min-height: 200px;
+            margin: 40px 0;
+        }
+        .author-name {
+            position: fixed;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 5px currentColor;
+            z-index: 20;
+            white-space: nowrap;
+            display: inline-block;
+            transform-origin: center;
+            animation: flyAround 8s ease-in-out infinite;
+        }
+        /* 작가 이름 랜덤 크기, 방향, 폰트 */
+        @keyframes flyAround {
+            0% {
+                transform: translate(var(--start-x), var(--start-y)) scale(var(--start-s));
+                opacity: 1;
+            }
+            25% {
+                transform: translate(var(--x1), var(--y1)) scale(var(--s1));
+            }
+            50% {
+                transform: translate(var(--x2), var(--y2)) scale(var(--s2));
+            }
+            75% {
+                transform: translate(var(--x3), var(--y3)) scale(var(--s3));
+            }
+            100% {
+                transform: translate(var(--end-x), var(--end-y)) scale(var(--end-s));
+                opacity: 1;
+            }
+        }
+        /* 아이프레임 배치 */
+        .iphone-iframe-container {
+            position: relative;
+            width: 390px;
+            height: 844px;
+            margin: 20px auto 40px;
+            border-radius: 40px;
+            border: 8px solid #f8d56b;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.5), inset 0 0 20px rgba(255, 215, 0, 0.3);
+            overflow: hidden;
+        }
+        .iphone-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+        .ribbon {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 30px;
+            background: #ff6b6b;
+            color: #fff;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            border-radius: 5px 5px 0 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 30;
+        }
+        .ribbon::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 0;
+            height: 0;
+            border-left: 60px solid transparent;
+            border-right: 60px solid transparent;
+            border-top: 10px solid #e05555;
+        }
+        /* 컨페티 효과 */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f00;
+            opacity: 0.8;
+            z-index: 5;
+            animation: confettiFall 5s ease-in forwards;
+        }
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        /* 레이저 효과 */
+        .laser-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .laser {
+            position: absolute;
+            height: 2px;
+            background: currentColor;
+            box-shadow: 0 0 10px 2px currentColor;
+            transform-origin: left center;
+            animation: laserMove 2s ease-out forwards;
+            z-index: 1;
+        }
+        @keyframes laserMove {
+            0% {
+                transform: translate(var(--sx), var(--sy)) rotate(var(--angle)) scaleX(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--sx), var(--sy)) rotate(var(--angle)) scaleX(var(--scale));
+                opacity: 0;
+            }
+        }
+        /* 폭죽 터질 때 주변 밝기 효과 */
+        .flash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.5);
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0;
+            animation: flashFade 0.5s ease-out;
+        }
+        @keyframes flashFade {
+            0% { opacity: 0.5; }
+            100% { opacity: 0; }
+        }
+        /* 아이폰 16 크기(가정: 6.7인치 기준, 390x844px) */
+        @media (max-width: 390px) {
+            .iphone-iframe-container {
+                width: 100%;
+                height: 844px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="typing-container">
+        <span id="typing-text" class="typing-text"></span>
+    </div>
+    <div class="wrapper">
+        <div class="magic-text">기변-온</div>
+    </div>
+    <!-- 아이프레임 배치 -->
+    <div class="iphone-iframe-container">
+        <div class="ribbon">기변-온</div>
+        <iframe class="iphone-iframe" src="https://embed.figma.com/proto/tnIKv0bQCPdKTyCsnqfwls/%EA%B8%B0%EB%B3%80-%EC%98%A8?node-id=61-3962&p=f&scaling=min-zoom&content-scaling=fixed&page-id=61%3A3610&embed-host=share" allowfullscreen></iframe>
+    </div>
+    <!-- 레이저 컨테이너 -->
+    <div class="laser-container"></div>
+    <script>
+        // 타이핑 효과 ("오늘의 기분은, 멋지게 변할거예요."만)
+        const text = "오늘의 기분은, 멋지게 변할거예요.";
+        let i = 0;
+        const speed = 100;
+        function typeWriter() {
+            if (i < text.length) {
+                document.getElementById("typing-text").innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, speed);
+            }
+        }
+        window.onload = typeWriter;
+
+        // 불꽃놀이 효과
+        setInterval(() => {
+            createFirework();
+        }, 300);
+
+        function createFirework() {
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            const x = Math.random() * window.innerWidth - window.innerWidth/2;
+            const y = Math.random() * window.innerHeight - window.innerHeight/2;
+            firework.style.setProperty('--x', x + 'px');
+            firework.style.setProperty('--y', y + 'px');
+            const hue = Math.floor(Math.random() * 360);
+            firework.style.background = `hsl(${hue}, 100%, 50%)`;
+            firework.style.boxShadow = `0 0 10px 5px hsla(${hue}, 100%, 50%, 0.8)`;
+            document.body.appendChild(firework);
+            setTimeout(() => {
+                firework.remove();
+            }, 2000);
+
+            // 불씨(스파크) 여러 개 생성
+            for (let i = 0; i < 10; i++) {
+                createSpark(x, y, hue);
+            }
+
+            // 폭죽 터질 때 주변 밝기 효과
+            const flash = document.createElement('div');
+            flash.className = 'flash';
+            document.body.appendChild(flash);
+            setTimeout(() => {
+                flash.remove();
+            }, 500);
+        }
+
+        function createSpark(x, y, hue) {
+            const spark = document.createElement('div');
+            spark.className = 'spark';
+            const sx = x + (Math.random() * 20 - 10);
+            const sy = y + (Math.random() * 20 - 10);
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 30 + Math.random() * 50;
+            const ex = sx + Math.cos(angle) * distance;
+            const ey = sy + Math.sin(angle) * distance;
+            spark.style.setProperty('--sx', sx + 'px');
+            spark.style.setProperty('--sy', sy + 'px');
+            spark.style.setProperty('--ex', ex + 'px');
+            spark.style.setProperty('--ey', ey + 'px');
+            spark.style.color = `hsl(${hue}, 100%, 50%)`;
+            document.body.appendChild(spark);
+            setTimeout(() => {
+                spark.remove();
+            }, 1500);
+        }
+
+        // 작가 이름 불꽃놀이처럼 날아다니는 효과 (무지개색, 랜덤 방향, 크기, 폰트)
+        const authors = ['박리라', '오수아', '장인영'];
+        const fonts = ['Arial', 'Verdana', 'Courier New', 'Georgia', 'Impact', 'Comic Sans MS', 'Times New Roman'];
+        authors.forEach((name, idx) => {
+            const el = document.createElement('div');
+            el.className = 'author-name';
+            el.textContent = name;
+            el.style.top = Math.random() * 80 + 10 + '%';
+            el.style.left = Math.random() * 80 + 10 + '%';
+            el.style.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
+            el.style.fontFamily = fonts[Math.floor(Math.random() * fonts.length)];
+            el.style.animationDelay = idx * 2 + 's';
+            el.style.animationName = 'flyAround';
+            el.style.animationDuration = (8 + idx * 2) + 's';
+
+            // 랜덤한 좌표 및 크기 생성 (여기저기 날아다니게, 크기 랜덤)
+            const setRandomPos = () => {
+                const startX = Math.random() * 80 + 10;
+                const startY = Math.random() * 80 + 10;
+                const endX = Math.random() * 80 + 10;
+                const endY = Math.random() * 80 + 10;
+                const x1 = Math.random() * 80 + 10;
+                const y1 = Math.random() * 80 + 10;
+                const x2 = Math.random() * 80 + 10;
+                const y2 = Math.random() * 80 + 10;
+                const x3 = Math.random() * 80 + 10;
+                const y3 = Math.random() * 80 + 10;
+                const x4 = Math.random() * 80 + 10;
+                const y4 = Math.random() * 80 + 10;
+                // 크기 랜덤 (scale)
+                const startS = Math.random() * 2 + 0.5;
+                const s1 = Math.random() * 3 + 0.5;
+                const s2 = Math.random() * 3 + 0.5;
+                const s3 = Math.random() * 3 + 0.5;
+                const endS = Math.random() * 2 + 0.5;
+
+                el.style.setProperty('--start-x', startX + 'vw');
+                el.style.setProperty('--start-y', startY + 'vh');
+                el.style.setProperty('--end-x', endX + 'vw');
+                el.style.setProperty('--end-y', endY + 'vh');
+                el.style.setProperty('--x1', x1 + 'vw');
+                el.style.setProperty('--y1', y1 + 'vh');
+                el.style.setProperty('--x2', x2 + 'vw');
+                el.style.setProperty('--y2', y2 + 'vh');
+                el.style.setProperty('--x3', x3 + 'vw');
+                el.style.setProperty('--y3', y3 + 'vh');
+                el.style.setProperty('--x4', x4 + 'vw');
+                el.style.setProperty('--y4', y4 + 'vh');
+                el.style.setProperty('--start-s', startS);
+                el.style.setProperty('--s1', s1);
+                el.style.setProperty('--s2', s2);
+                el.style.setProperty('--s3', s3);
+                el.style.setProperty('--end-s', endS);
+            };
+            setRandomPos();
+            // 애니메이션 끝날 때마다 랜덤 위치 및 크기 재설정
+            el.addEventListener('animationiteration', setRandomPos);
+            document.body.appendChild(el);
+        });
+
+        // 컨페티 효과
+        setInterval(() => {
+            for (let i = 0; i < 10; i++) {
+                createConfetti();
+            }
+        }, 200);
+
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+            confetti.style.width = Math.random() * 10 + 5 + 'px';
+            confetti.style.height = Math.random() * 10 + 5 + 'px';
+            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+            document.body.appendChild(confetti);
+            setTimeout(() => {
+                confetti.remove();
+            }, 5000);
+        }
+
+        // 아이프레임 테두리 무지개 네온색으로 번쩍번쩍 랜덤하게 변하는 효과
+        const iphoneContainer = document.querySelector('.iphone-iframe-container');
+        setInterval(() => {
+            const hue = Math.floor(Math.random() * 360);
+            iphoneContainer.style.borderColor = `hsl(${hue}, 100%, 70%)`;
+            iphoneContainer.style.boxShadow = `0 0 40px hsla(${hue}, 100%, 70%, 0.5), inset 0 0 20px hsla(${hue}, 100%, 70%, 0.3)`;
+        }, 300);
+
+        // 레이저 효과
+        setInterval(() => {
+            createLaser();
+        }, 400);
+
+        function createLaser() {
+            const container = document.querySelector('.laser-container');
+            const laser = document.createElement('div');
+            laser.className = 'laser';
+            // 시작 위치: 화면 양쪽 끝 중 한 곳
+            const side = Math.random() > 0.5 ? 'left' : 'right';
+            const sx = side === 'left' ? 0 : window.innerWidth;
+            const sy = Math.random() * window.innerHeight;
+            // 각도 랜덤 (약간 대각선)
+            const angle = (Math.random() * 60 - 30) * (side === 'left' ? 1 : -1);
+            // 길이 랜덤 (화면 너비의 0.5~1.5배)
+            const scale = Math.random() * 1 + 0.5;
+            const length = window.innerWidth * scale;
+            // 색상 랜덤
+            const hue = Math.floor(Math.random() * 360);
+            laser.style.setProperty('--sx', sx + 'px');
+            laser.style.setProperty('--sy', sy + 'px');
+            laser.style.setProperty('--angle', angle + 'deg');
+            laser.style.setProperty('--scale', scale);
+            laser.style.width = length + 'px';
+            laser.style.color = `hsl(${hue}, 100%, 70%)`;
+            container.appendChild(laser);
+            setTimeout(() => {
+                laser.remove();
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
